@@ -40,11 +40,11 @@ namespace CountryClubAPI.Models
         public string Country { get; set; }
         public string PostalCode { get; set; }
         public string Family_ID { get; set; }
+        public string Title { get; set; }
         public string DateOfBirth { get; set; }
         public byte[] DisplayPicture { get; set; }
         public string DateJoined { get; set; }
         public Nullable<bool> IsPasswordReset { get; set; }
-        public string FamilyRole { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Comment> Comments { get; set; }

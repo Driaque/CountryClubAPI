@@ -6,66 +6,51 @@ using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Text.RegularExpressions;
 using System.Web.Http;
-using System.Web.Http.ModelBinding;
-using System.Web.Http.OData;
-using System.Web.Http.OData.Routing;
+using System.Web.Http.Description;
 using CountryClubAPI.Models;
 
 namespace CountryClubAPI.Controllers
 {
-    /*
-    The WebApiConfig class may require additional changes to add a route for this controller. Merge these statements into the Register method of the WebApiConfig class as applicable. Note that OData URLs are case sensitive.
-
-    using System.Web.Http.OData.Builder;
-    using System.Web.Http.OData.Extensions;
-    using CountryClubAPI.Models;
-    ODataConventionModelBuilder builder = new ODataConventionModelBuilder();
-    builder.EntitySet<User>("Users");
-    builder.EntitySet<Comment>("Comments"); 
-    builder.EntitySet<Family>("Families"); 
-    builder.EntitySet<Friend>("Friends"); 
-    builder.EntitySet<Message>("Messages"); 
-    builder.EntitySet<Post>("Posts"); 
-    builder.EntitySet<PostLikedbyUser>("PostLikedbyUsers"); 
-    builder.EntitySet<User_Has_Interest>("User_Has_Interest"); 
-    config.Routes.MapODataServiceRoute("odata", "odata", builder.GetEdmModel());
-    */
-    public class UsersController : ODataController
+    public class UsersController : ApiController
     {
         private CountryClubEntities db = new CountryClubEntities();
 
-        // GET: odata/Users
-        [EnableQuery]
+        // GET: api/Users
         public IQueryable<User> GetUsers()
         {
             return db.Users;
         }
 
-        // GET: odata/Users(5)
-        [EnableQuery]
-        public SingleResult<User> GetUser([FromODataUri] int key)
+        // GET: api/Users/5
+        [ResponseType(typeof(User))]
+        public IHttpActionResult GetUser(int id)
         {
-            return SingleResult.Create(db.Users.Where(user => user.User_ID == key));
-        }
-
-        // PUT: odata/Users(5)
-        public IHttpActionResult Put([FromODataUri] int key, Delta<User> patch)
-        {
-            Validate(patch.GetEntity());
-
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            User user = db.Users.Find(key);
+            User user = db.Users.Find(id);
             if (user == null)
             {
                 return NotFound();
             }
 
-            patch.Put(user);
+            return Ok(user);
+        }
+
+        // PUT: api/Users/5
+        [ResponseType(typeof(void))]
+        public IHttpActionResult PutUser(int id, User user)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            if (id != user.User_ID)
+            {
+                return BadRequest();
+            }
+
+            db.Entry(user).State = EntityState.Modified;
 
             try
             {
@@ -73,7 +58,7 @@ namespace CountryClubAPI.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!UserExists(key))
+                if (!UserExists(id))
                 {
                     return NotFound();
                 }
@@ -83,18 +68,54 @@ namespace CountryClubAPI.Controllers
                 }
             }
 
-            return Updated(user);
+            return StatusCode(HttpStatusCode.NoContent);
+        }
+        [HttpPost]
+        [ResponseType(typeof(AuthHelper))]
+        [Route("api/Users/Login")]
+        public string Login(User user)
+        {
+            AuthHelper auth = new AuthHelper();
+            //Get User
+            var credentials = user.Username;//parameters["Credentialss"] as ICollection<string>;
+            var username = user.Username; //parameters["Username"] as string;
+            var password = user.Password; //parameters["Password"] as string;
+
+            if (!ModelState.IsValid)
+            {
+                // BadRequest(ModelState);
+                throw new HttpResponseException(HttpStatusCode.BadRequest);
+            }
+            var userdetails = db.Users.Where(x => x.Username == username).SingleOrDefault(i => i.Username == username && i.Password == password); ;
+            if (userdetails != null)
+            {
+                auth.IsAuthenticated = true;
+                auth.UserID = userdetails.User_ID;
+                auth.FamilyID = userdetails.Family_ID;
+                //auth.User = userdetails;
+            }
+            else
+            {
+                auth.IsAuthenticated = false;
+            }
+
+            string jsonData =Newtonsoft.Json.JsonConvert.SerializeObject(auth);
+            string escapedJsonData = Regex.Escape(jsonData);
+
+            return escapedJsonData;
         }
 
-        // POST: odata/Users
-        //[RoutePrefix("api/User")]
-        public IHttpActionResult Post(User user)
+
+
+        // POST: api/Users
+        [ResponseType(typeof(User))]
+        public IHttpActionResult PostUser(User user)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-            if(user.Family_ID == null)
+            if (user.Family_ID == null)
             {
                 Family family = new Family();
                 family.Family_ID = GenerateFamilyCode(user.Lastname);
@@ -103,63 +124,26 @@ namespace CountryClubAPI.Controllers
                 db.Families.Add(family);
                 user.Family_ID = family.Family_ID;
             }
-            else {
+            else
+            {
                 var family = db.Families.Where(x => x.Family_ID == user.Family_ID).SingleOrDefault();
                 family.MemberCount = family.MemberCount + 1;
             }
-            
+
 
             user.DateJoined = DateTime.Now.ToShortDateString();
 
-            
             db.Users.Add(user);
             db.SaveChanges();
 
-            return Created(user);
+            return CreatedAtRoute("DefaultApi", new { id = user.User_ID }, user);
         }
 
-        // PATCH: odata/Users(5)
-        [AcceptVerbs("PATCH", "MERGE")]
-        public IHttpActionResult Patch([FromODataUri] int key, Delta<User> patch)
+        // DELETE: api/Users/5
+        [ResponseType(typeof(User))]
+        public IHttpActionResult DeleteUser(int id)
         {
-            Validate(patch.GetEntity());
-
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            User user = db.Users.Find(key);
-            if (user == null)
-            {
-                return NotFound();
-            }
-
-            patch.Patch(user);
-
-            try
-            {
-                db.SaveChanges();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!UserExists(key))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return Updated(user);
-        }
-
-        // DELETE: odata/Users(5)
-        public IHttpActionResult Delete([FromODataUri] int key)
-        {
-            User user = db.Users.Find(key);
+            User user = db.Users.Find(id);
             if (user == null)
             {
                 return NotFound();
@@ -168,70 +152,7 @@ namespace CountryClubAPI.Controllers
             db.Users.Remove(user);
             db.SaveChanges();
 
-            return StatusCode(HttpStatusCode.NoContent);
-        }
-
-        // GET: odata/Users(5)/Comments
-        [EnableQuery]
-        public IQueryable<Comment> GetComments([FromODataUri] int key)
-        {
-            return db.Users.Where(m => m.User_ID == key).SelectMany(m => m.Comments);
-        }
-
-        // GET: odata/Users(5)/Family
-        [EnableQuery]
-        public SingleResult<Family> GetFamily([FromODataUri] int key)
-        {
-            return SingleResult.Create(db.Users.Where(m => m.User_ID == key).Select(m => m.Family));
-        }
-
-        // GET: odata/Users(5)/Friends
-        [EnableQuery]
-        public IQueryable<Friend> GetFriends([FromODataUri] int key)
-        {
-            return db.Users.Where(m => m.User_ID == key).SelectMany(m => m.Friends);
-        }
-
-        // GET: odata/Users(5)/Friends1
-        [EnableQuery]
-        public IQueryable<Friend> GetFriends1([FromODataUri] int key)
-        {
-            return db.Users.Where(m => m.User_ID == key).SelectMany(m => m.Friends1);
-        }
-
-        // GET: odata/Users(5)/Messages
-        [EnableQuery]
-        public IQueryable<Message> GetMessages([FromODataUri] int key)
-        {
-            return db.Users.Where(m => m.User_ID == key).SelectMany(m => m.Messages);
-        }
-
-        // GET: odata/Users(5)/Messages1
-        [EnableQuery]
-        public IQueryable<Message> GetMessages1([FromODataUri] int key)
-        {
-            return db.Users.Where(m => m.User_ID == key).SelectMany(m => m.Messages1);
-        }
-
-        // GET: odata/Users(5)/Posts
-        [EnableQuery]
-        public IQueryable<Post> GetPosts([FromODataUri] int key)
-        {
-            return db.Users.Where(m => m.User_ID == key).SelectMany(m => m.Posts);
-        }
-
-        // GET: odata/Users(5)/PostLikedbyUsers
-        [EnableQuery]
-        public IQueryable<PostLikedbyUser> GetPostLikedbyUsers([FromODataUri] int key)
-        {
-            return db.Users.Where(m => m.User_ID == key).SelectMany(m => m.PostLikedbyUsers);
-        }
-
-        // GET: odata/Users(5)/User_Has_Interest
-        [EnableQuery]
-        public IQueryable<User_Has_Interest> GetUser_Has_Interest([FromODataUri] int key)
-        {
-            return db.Users.Where(m => m.User_ID == key).SelectMany(m => m.User_Has_Interest);
+            return Ok(user);
         }
 
         protected override void Dispose(bool disposing)
@@ -243,16 +164,15 @@ namespace CountryClubAPI.Controllers
             base.Dispose(disposing);
         }
 
-        private bool UserExists(int key)
+        private bool UserExists(int id)
         {
-            return db.Users.Count(e => e.User_ID == key) > 0;
+            return db.Users.Count(e => e.User_ID == id) > 0;
         }
+
         public string GenerateFamilyCode(string lastname)
         {
-            string finalCode = string.Empty;
-            Guid guid = new Guid();
-           
-            finalCode = lastname.Substring(0, 3) + guid.ToString().Substring(0, 7);
+            var guid = Guid.NewGuid();
+            string finalCode = lastname.Substring(0, 3) + guid.ToString().Substring(0, 7);
             return finalCode;
         }
 

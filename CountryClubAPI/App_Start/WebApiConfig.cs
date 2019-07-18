@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Cors;
 using System.Web.Http.OData.Builder;
 using System.Web.Http.OData.Extensions;
+using System.Web.Http.Routing;
 using CountryClubAPI.Models;
 
 namespace CountryClubAPI
@@ -16,6 +18,8 @@ namespace CountryClubAPI
             // Web API configuration and services
             ODataConventionModelBuilder builder = new ODataConventionModelBuilder();
             builder.EntitySet<User>("Users");
+            //var login = builder.Entity<User>().Collection.Action("Login");
+            //login.CollectionParameter<string>("Credentialss");
             builder.EntitySet<Comment>("Comments");
             builder.EntitySet<Family>("Families");
             builder.EntitySet<Friend>("Friends");
@@ -45,6 +49,9 @@ namespace CountryClubAPI
                 routeTemplate: "api/{controller}/{id}",
                 defaults: new { id = RouteParameter.Optional }
             );
+            config.Routes.MapHttpRoute("DefaultApiWithAction", "Api/{controller}/{action}");
+            config.Routes.MapHttpRoute("DefaultApiGet", "Api/{controller}", new { action = "Get" }, new { httpMethod = new HttpMethodConstraint(HttpMethod.Get) });
+            config.Routes.MapHttpRoute("DefaultApiPost", "Api/{controller}", new { action = "Post" }, new { httpMethod = new HttpMethodConstraint(HttpMethod.Post) });
         }
     }
 }
