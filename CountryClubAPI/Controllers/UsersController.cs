@@ -97,12 +97,13 @@ namespace CountryClubAPI.Controllers
             else
             {
                 auth.IsAuthenticated = false;
+                auth.responseMessage = "Invalid Credentials";
             }
 
-            string jsonData =Newtonsoft.Json.JsonConvert.SerializeObject(auth);
-            string escapedJsonData = Regex.Escape(jsonData);
+            string jsonData = Newtonsoft.Json.JsonConvert.SerializeObject(auth);
+            //string escapedJsonData = Regex.Escape(jsonData);
 
-            return escapedJsonData;
+            return jsonData;
         }
 
 

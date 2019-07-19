@@ -11,5 +11,6 @@ namespace CountryClubAPI.Models
         //public User User { get; set; }
         public int UserID { get; set; }
         public string FamilyID { get; set; }
+        public string responseMessage { get; set; }
     }
 }
