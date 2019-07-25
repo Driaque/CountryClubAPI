@@ -8,11 +8,13 @@ using System.Net;
 using System.Net.Http;
 using System.Text.RegularExpressions;
 using System.Web.Http;
+using System.Web.Http.Cors;
 using System.Web.Http.Description;
 using CountryClubAPI.Models;
 
 namespace CountryClubAPI.Controllers
 {
+    [EnableCors(origins: "http://localhost:46204", headers: "*", methods: "*")]
     public class UsersController : ApiController
     {
         private CountryClubEntities db = new CountryClubEntities();

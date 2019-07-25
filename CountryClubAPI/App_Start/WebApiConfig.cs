@@ -32,7 +32,7 @@ namespace CountryClubAPI
             config.Routes.MapODataServiceRoute("odata", "odata", builder.GetEdmModel());
 
             //CORS
-           // var cors = new EnableCorsAttribute("http://localhost:46204", "*", "*");
+
             var cors = new EnableCorsAttribute(
                             "http://localhost:46204",
                             "*",
