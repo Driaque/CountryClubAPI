@@ -59,8 +59,10 @@ namespace CountryClubMVC.Controllers
                     Session["User"] = userdetails;
                     Session["USERID"] = userdetails.User_ID;
                     Session["FAMID"] = userdetails.Family_ID;
+                    Session["FAMTIT"] = userdetails.Title;
+                    Session["FAMNAME"] = userdetails.Lastname;
 
-                    return RedirectToAction("Index", "Home");
+                return RedirectToAction("Index", "Home");
 
                 }
                 ModelState.AddModelError("", "Invalid Credentials");
@@ -72,6 +74,8 @@ namespace CountryClubMVC.Controllers
         public ActionResult Register()
        {
             ViewBag.Family_ID = new SelectList(db.Familys, "Family_ID", "FamilyName");
+        
+
             return View();
         }
 
@@ -108,7 +112,7 @@ namespace CountryClubMVC.Controllers
 
                 db.Users.Add(user);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Login", "Users");
             }
 
             ViewBag.Family_ID = new SelectList(db.Familys, "Family_ID", "FamilyName", user.Family_ID);
