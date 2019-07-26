@@ -135,10 +135,10 @@ namespace CountryClubMVC.Controllers
 
         // GET: Users/Register
         public ActionResult Register()
-       {
+        {
+
             ViewBag.Family_ID = new SelectList(db.Familys, "Family_ID", "FamilyName");
         
-
             return View();
         }
 
@@ -169,7 +169,6 @@ namespace CountryClubMVC.Controllers
                     var family = db.Familys.Where(x => x.Family_ID == user.Family_ID).SingleOrDefault();
                     family.MemberCount = family.MemberCount + 1;
                 }
-
 
                 user.DateJoined = DateTime.Now.ToShortDateString();
 
