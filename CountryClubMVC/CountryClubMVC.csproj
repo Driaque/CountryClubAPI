@@ -144,6 +144,7 @@
     <Compile Include="ViewModels\AddFamilyViewModel.cs" />
     <Compile Include="ViewModels\LoginViewModel.cs" />
     <Compile Include="ViewModels\RegisterViewModel.cs" />
+    <Compile Include="ViewModels\AddUserPostViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap-theme.css" />
@@ -193,6 +194,7 @@
     <Content Include="Content\NewContent\dist\img\avatar5.png" />
     <Content Include="Content\NewContent\dist\img\boxed-bg.jpg" />
     <Content Include="Content\NewContent\dist\img\boxed-bg.png" />
+    <Content Include="Content\NewContent\dist\img\camera.png" />
     <Content Include="Content\NewContent\dist\img\credit\american-express.png" />
     <Content Include="Content\NewContent\dist\img\credit\cirrus.png" />
     <Content Include="Content\NewContent\dist\img\credit\mastercard.png" />
@@ -1090,10 +1092,11 @@
     <Content Include="Views\Users\Login.cshtml" />
     <Content Include="Views\Shared\_Register.cshtml" />
     <Content Include="Views\Users\Register.cshtml" />
+    <Content Include="Views\Posts\Create.cshtml" />
+    <Content Include="Views\Posts\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Posts\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

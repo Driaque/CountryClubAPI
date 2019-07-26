@@ -5,6 +5,7 @@
     {
         _user = (CountryClubMVC.Models.User)HttpContext.Current.Session["User"];
         ViewBag.Name = _user.Username;
+        ViewBag.UserID = _user.User_ID;
         var isPasswordReset = _user.IsPasswordReset;
         //ViewBag.CurrentFinancialDate = eod.FinancialDate;
     }

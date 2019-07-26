@@ -62,7 +62,7 @@ namespace CountryClubMVC.Controllers
                     Session["FAMTIT"] = userdetails.Title;
                     Session["FAMNAME"] = userdetails.Lastname;
 
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Create", "Posts");
 
                 }
                 ModelState.AddModelError("", "Invalid Credentials");
