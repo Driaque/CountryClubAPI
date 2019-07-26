@@ -126,6 +126,7 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\FriendsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\PostsController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
@@ -135,6 +136,7 @@
     <Compile Include="Models\AppDbContext.cs" />
     <Compile Include="Models\BindPropertyAttribute.cs" />
     <Compile Include="Models\Comment.cs" />
+    <Compile Include="Models\DbInitializer.cs" />
     <Compile Include="Models\Family.cs" />
     <Compile Include="Models\Friend.cs" />
     <Compile Include="Models\Message.cs" />
@@ -1090,9 +1092,14 @@
     <Content Include="Views\Users\Login.cshtml" />
     <Content Include="Views\Shared\_Register.cshtml" />
     <Content Include="Views\Users\Register.cshtml" />
+    <Content Include="Views\Shared\_AddFamily.cshtml" />
+    <Content Include="Views\Users\AddFamily.cshtml" />
+    <Content Include="Views\Users\GetFamilyMembers.cshtml" />
+    <Content Include="Views\Users\GetFriendsList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Friends\" />
     <Folder Include="Views\Posts\" />
   </ItemGroup>
   <ItemGroup>

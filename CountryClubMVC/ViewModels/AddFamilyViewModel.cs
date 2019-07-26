@@ -21,5 +21,7 @@ namespace CountryClubMVC.ViewModels
         public string Gender { get; set; }
         [Required]
         public string Email { get; set; }
+        [Required]
+        public string Family_ID { get; set; }
     }
 }

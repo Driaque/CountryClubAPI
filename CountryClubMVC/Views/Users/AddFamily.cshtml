@@ -1,13 +1,19 @@
 ﻿
-@model CountryClubMVC.ViewModels.RegisterViewModel
+@model CountryClubMVC.ViewModels.AddFamilyViewModel
+
 
 @{
-    ViewBag.Title = "Register";
-    Layout = "~/Views/Shared/_Register.cshtml";
+    CountryClubMVC.Models.User prevUser = new CountryClubMVC.Models.User();
+
+    prevUser = (CountryClubMVC.Models.User)HttpContext.Current.Session["User"];
+    prevUser = null;
+
+
 }
 
+
 @Html.ValidationSummary(false, "", new { @class = "text-danger" })
-@using (Html.BeginForm("Register", "Users", FormMethod.Post))
+@using (Html.BeginForm("AddFamily", "Users", FormMethod.Post))
 {
     @Html.AntiForgeryToken()
     <div class="form-group has-feedback">
@@ -20,15 +26,12 @@
         <span class="glyphicon glyphicon-user form-control-feedback"></span>
     </div>
 
-    <div class="form-group has-feedback">
-        @Html.TextBoxFor(model => model.Lastname, new { @class = "form-control", placeholder = "Lastname" })
-        <span class="glyphicon glyphicon-user form-control-feedback"></span>
-    </div>
 
     <div class="form-group has-feedback">
         @Html.TextBoxFor(model => model.Email, new { @class = "form-control", placeholder = "Email" })
         <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
     </div>
+
 
     <div class="form-group has-feedback">
 
@@ -39,7 +42,7 @@
 
     <div class="form-group has-feedback">
 
-        Parent:   @Html.RadioButton("Title", "Parent")
+        Parent: @Html.RadioButton("Title", "Parent")
         Child: @Html.RadioButton("Title", "Child")
     </div>
 

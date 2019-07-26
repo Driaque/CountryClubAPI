@@ -12,7 +12,7 @@ namespace CountryClubMVC.Models
         public int Friendship_ID { get; set; }
         public string Friend_Name { get; set; }
         public int friend_UserID { get; set; }
-        public int User_ID { get; set; }
+        public string User_ID { get; set; }
         public string Status { get; set; }
        
         public string TimeEstablished { get; set; }
