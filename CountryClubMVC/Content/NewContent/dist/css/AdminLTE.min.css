@@ -1598,13 +1598,12 @@ a {
 
 .box {
     position: relative;
-    border-radius: 6px;
+    border-radius: 3px;
     background: #ffffff;
-    border-top: 4px solid #d2d6de;
+    border-top: 3px solid #d2d6de;
     margin-bottom: 20px;
-    margin-left: 25%;
-    width: 49%;
-    box-shadow: 0 1px 1px rgba(0,0,0,0.1);
+    width: 100%;
+    box-shadow: 0 1px 1px rgba(0,0,0,0.1)
 }
 
     .box.box-primary {
@@ -1612,7 +1611,7 @@ a {
     }
 
     .box.box-info {
-        border-top-color: #57d0ae
+        border-top-color: #00c0ef
     }
 
     .box.box-danger {
@@ -2389,12 +2388,12 @@ a {
     }
 
 .btn-primary {
-    background-color: #3c8dbc;
-    border-color: #367fa9
+    background-color: #f6f6f6;
+    border-color: #57d0ae
 }
 
     .btn-primary:hover, .btn-primary:active, .btn-primary.hover {
-        background-color: #367fa9
+        background-color: #ffffff
     }
 
 .btn-success {

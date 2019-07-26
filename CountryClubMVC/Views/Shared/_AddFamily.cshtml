@@ -1,0 +1,58 @@
+﻿
+
+@{
+    CountryClubMVC.Models.User _user = new CountryClubMVC.Models.User();
+
+    if (HttpContext.Current.Session["User"] != null)
+    {
+        _user = (CountryClubMVC.Models.User)HttpContext.Current.Session["User"];
+        ViewBag.Name = _user.Username;
+        ViewBag.FamID = _user.Family_ID;
+        var isPasswordReset = _user.IsPasswordReset;
+       
+    }
+    else
+    {
+        Response.Redirect("~/Users/Login");
+    }
+}
+
+
+
+
+    <!DOCTYPE html>
+    <html>
+    <head>
+
+    </head>
+    <body class="hold-transition register-page">
+        <div class="register-box">
+            <div class="register-logo">
+                <a href="#"><b>CountryClub</b>Network</a>
+            </div>
+            <div class="register-box-body">
+                <p class="login-box-msg">Add a new Family Member</p>
+                @RenderBody()
+
+            </div>
+            <!-- /.form-box -->
+        </div>
+        <!-- /.register-box -->
+        <!-- jQuery 2.2.3 -->
+        <script src="~/Content/NewContent/plugins/jQuery/jquery-2.2.3.min.js"></script>
+        <!-- Bootstrap 3.3.6 -->
+        <script src="~/Content/NewContent/bootstrap/js/bootstrap.min.js"></script>
+        <!-- iCheck -->
+        <script src="~/Content/NewContent/plugins/iCheck/icheck.min.js"></script>
+        <script>
+            $(function () {
+                $('input').iCheck({
+                    checkboxClass: 'icheckbox_square-blue',
+                    radioClass: 'iradio_square-blue',
+                    increaseArea: '20%' // optional
+                });
+            });
+        </script>
+    </body>
+</html>
+

@@ -5,7 +5,8 @@
     {
         _user = (CountryClubMVC.Models.User)HttpContext.Current.Session["User"];
         ViewBag.Name = _user.Username;
-        ViewBag.UserID = _user.User_ID;
+        ViewBag.FamID = _user.Family_ID;
+        ViewBag.FamTitle = Session["FAMTIT"];
         var isPasswordReset = _user.IsPasswordReset;
         //ViewBag.CurrentFinancialDate = eod.FinancialDate;
     }
@@ -166,20 +167,29 @@
                                     </span>
                                 </a>
                                 <ul class="treeview-menu">
-                                    <li><a href="@Url.Action("Register", "Users")"><i class="fa fa-user-plus"></i> Add to Family</a></li>
-                                    <li><a href="@Url.Action("Index", "Attendances")"><i class="fa fa-eye"></i> View Family</a></li>
+                                    @{
+
+                                        if (ViewBag.FamTitle == "Parent")
+                                        {
+                                            <li><a href="@Url.Action("AddFamily", "Users")"><i class="fa fa-user-plus"></i> Add to Family</a></li>
+
+                                        }
+
+                                    }
+                                    <li><a href="@Url.Action("GetFamilyMembers", "Users")"><i class="fa fa-eye"></i> View Family</a></li>
                                 </ul>
                             </li>
                             <li class="treeview">
                                 <a href="#">
-                                    <i class="fa fa-users"></i> <span>Friends</span>
+                                    <i class="fa fa-users"></i> <span>People</span>
                                     <span class="pull-right-container">
                                         <i class="fa fa-angle-left pull-right"></i>
                                     </span>
                                 </a>
                                 <ul class="treeview-menu">
-                                    <li><a href="@Url.Action("Create", "Parents")"><i class="fa fa-plus-square"></i> Add Friend</a></li>
-                                    <li><a href="@Url.Action("Index", "Parents")"><i class="fa fa-eye"></i> View Friends</a></li>
+                                    <li><a href="@Url.Action("Create", "Parents")"><i class="fa fa-plus-square"></i> Find People</a></li>
+                                    <li><a href="@Url.Action("GetFriendsList", "Users")"><i class="fa fa-eye"></i> Following </a></li>
+                                    <li><a href="@Url.Action("GetFriendsList", "Users")"><i class="fa fa-eye"></i> Followers </a></li>
                                 </ul>
                             </li>
                             <li class="treeview">
@@ -204,7 +214,7 @@
                                 </a>
                                 <ul class="treeview-menu">
                                     <li><a href="@Url.Action("Create", "Tests")"><i class="fa fa-plus-square"></i> Edit Profile</a></li>
-                                    <li><a href="@Url.Action("Index", "Tests")"><i class="fa fa-eye"></i> Block User</a></li>
+                                    <li><a href="@Url.Action("Index", "Tests")"><i class="fa fa-eye"></i> Change Password</a></li>
                                     <li><a href="@Url.Action("Create", "TestPayments")"><i class="fa fa-plus-square"></i> Send Bug </a></li>
                                 </ul>
                             </li>

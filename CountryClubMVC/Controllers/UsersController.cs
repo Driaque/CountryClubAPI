@@ -22,6 +22,22 @@ namespace CountryClubMVC.Controllers
             return View(users.ToList());
         }
 
+        // GET: GetFamilyMemebers
+        public ActionResult GetFamilyMembers()
+        {
+            var FamilyID = Session["FAMID"].ToString();
+            var users = db.Users.Where(x => x.Family_ID ==  FamilyID);
+            return View(users.ToList());
+        }
+
+        // GET: GetFriendsList
+        public ActionResult GetFriendsList()
+        {
+            var UserID = Session["USERID"].ToString();
+            var friends = db.Friends.Where(x => x.User_ID == UserID);
+
+            return View(friends.ToList());
+        }
         // GET: Users/Details/5
         public ActionResult Details(int? id)
         {
@@ -36,9 +52,56 @@ namespace CountryClubMVC.Controllers
             }
             return View(user);
         }
+        //GET: AddFamily
+        public ActionResult AddFamily()
+        {
 
+            return View();
+        }
+        // POST: AddFamily
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult AddFamily(User user)
+        {
+            if (ModelState.IsValid)
+            {
+                if (!ModelState.IsValid)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+                if (user.Family_ID == null)
+                {
+                    user.Family_ID = Session["FAMID"].ToString();
+                    user.Lastname = Session["FAMNAME"].ToString();
+
+                    //
+                    var family = db.Familys.Where(x => x.Family_ID == user.Family_ID).SingleOrDefault();
+
+                    family.MemberCount = family.MemberCount + 1;
+
+                }
+                else
+                {
+                    ModelState.AddModelError("", "Invalid Credentials");
+
+                }
+
+                user.DateJoined = DateTime.Now.ToShortDateString();
+
+                db.Users.Add(user);
+                db.SaveChanges();
+                return RedirectToAction("Index", "Home");
+            }
+
+            ViewBag.Family_ID = new SelectList(db.Familys, "Family_ID", "FamilyName", user.Family_ID);
+            return View(user);
+        }
+
+        //GET: Login
         public ActionResult Login()
         {
+            AppDbContext c = new AppDbContext();
+            c.Database.CreateIfNotExists();
 
             return View();
         }
@@ -47,7 +110,7 @@ namespace CountryClubMVC.Controllers
         [HttpPost]
         public ActionResult Login(LoginViewModel user)
         {
-       
+                   
             if (!ModelState.IsValid)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);

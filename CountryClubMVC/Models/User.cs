@@ -29,5 +29,7 @@ namespace CountryClubMVC.Models
         public string DateJoined { get; set; }
         public bool IsPasswordReset { get; set; }
         public Family family { get; set; }
+        public ICollection<User> Followers { get; set; }
+        public ICollection<User> Following { get; set; }
     }
 }
