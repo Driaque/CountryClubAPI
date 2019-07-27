@@ -14,13 +14,15 @@
 
 }
 
-<h2>Profile</h2>
+
 
 <div>
-    <h4>User</h4>
+  
     <hr />
     <dl class="dl-horizontal">
-        <div class="box-body box-profile">
+
+
+        @*<div class="box-body box-profile">
             <img class="profile-user-img img-responsive img-circle" src="../../Content/NewContent/dist/img/user2-160x160.jpg" alt="User profile picture">
 
             <h3 class="profile-username text-center">
@@ -43,9 +45,57 @@
             </ul>
 
 
+        </div>*@
+
+        <div class="col-lg-12">
+            <!-- Widget: user widget style 1 -->
+            <div class="box box-widget widget-user">
+                <!-- Add the bg color to the header using any of the bg-* classes -->
+                <div class="widget-user-header bg-black" style="background: url('../../Content/NewContent/dist/img/photo2.png') center center;">
+                    <h3 class="widget-user-username">
+                        @Html.DisplayFor(modelItem => modelItem.Firstname)
+                        @Html.DisplayFor(modelItem => modelItem.Lastname)
+                    </h3>
+                    <h5 class="widget-user-desc">Web Designer</h5>
+                </div>
+                <div class="widget-user-image">
+                    <img class="profile-user-img img-responsive img-circle" src="../../Content/NewContent/dist/img/user2-160x160.jpg" alt="User Avatar">
+                </div>
+
+                <br/>
+                <div class="box-footer">
+                    <div class="row">
+                        <div class="col-sm-4 border-right">
+                            <div class="description-block">
+                                <h5 class="description-header">3,200</h5>
+                                <span class="description-text">Following</span>
+                            </div>
+                            <!-- /.description-block -->
+                        </div>
+                        <!-- /.col -->
+                        <div class="col-sm-4 border-right">
+                            <div class="description-block">
+                                <h5 class="description-header">13,000</h5>
+                                <span class="description-text">FOLLOWERS</span>
+                            </div>
+                            <!-- /.description-block -->
+                        </div>
+                        <!-- /.col -->
+                        <div class="col-sm-4">
+                            <div class="description-block">
+                                <h5 class="description-header">35</h5>
+                                <span class="description-text">Friends</span>
+                            </div>
+                            <!-- /.description-block -->
+                        </div>
+                        <!-- /.col -->
+                    </div>
+                    <!-- /.row -->
+                </div>
+            </div>
+            <!-- /.widget-user -->
         </div>
 
-       
         <div class="col-md-12">
             <div class="box box-warning box-solid">
                 <div class="box-header with-border">
@@ -96,7 +146,7 @@
             <!-- /.box -->
         </div>
         <div class="box-body">
-      
+
         </div>
     </dl>
 </div>
