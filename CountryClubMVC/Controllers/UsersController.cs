@@ -26,7 +26,7 @@ namespace CountryClubMVC.Controllers
         public ActionResult GetFamilyMembers()
         {
             var FamilyID = Session["FAMID"].ToString();
-            var users = db.Users.Where(x => x.Family_ID ==  FamilyID);
+            var users = db.Users.Where(x => x.Family_ID == FamilyID);
             return View(users.ToList());
         }
 
@@ -113,26 +113,26 @@ namespace CountryClubMVC.Controllers
         [HttpPost]
         public ActionResult Login(LoginViewModel user)
         {
-                   
+
             if (!ModelState.IsValid)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             var userdetails = db.Users.Where(x => x.Username == user.Username).SingleOrDefault(i => i.Username == user.Username && i.Password == user.Password); ;
-           
-                if (userdetails != null)
-                {
-                    Session["User"] = userdetails;
-                    Session["USERID"] = userdetails.User_ID;
-                    Session["FAMID"] = userdetails.Family_ID;
-                    Session["FAMTIT"] = userdetails.Title;
-                    Session["FAMNAME"] = userdetails.Lastname;
+
+            if (userdetails != null)
+            {
+                Session["User"] = userdetails;
+                Session["USERID"] = userdetails.User_ID;
+                Session["FAMID"] = userdetails.Family_ID;
+                Session["FAMTIT"] = userdetails.Title;
+                Session["FAMNAME"] = userdetails.Lastname;
 
                 return RedirectToAction("Create", "Posts");
 
-                }
-                ModelState.AddModelError("", "Invalid Credentials");
-        
+            }
+            ModelState.AddModelError("", "Invalid Credentials");
+
             return View();
         }
 
@@ -141,7 +141,7 @@ namespace CountryClubMVC.Controllers
         {
 
             ViewBag.Family_ID = new SelectList(db.Familys, "Family_ID", "FamilyName");
-        
+
             return View();
         }
 
@@ -198,7 +198,7 @@ namespace CountryClubMVC.Controllers
         }
 
         // GET: Users/Edit/5
-        public  ActionResult EditProfile(int? id)
+        public ActionResult EditProfile(int? id)
         {
             if (id == null)
             {
@@ -218,16 +218,22 @@ namespace CountryClubMVC.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "User_ID,Username,Firstname,Email,PhoneNumber,Town,Street,Country,PostalCode,DateOfBirth,DisplayPicture")] User user)
+        public ActionResult EditProfile([Bind(Include = "User_ID,Username,Firstname,Email,PhoneNumber,Town,Street,Country,PostalCode,DateOfBirth,Bio,DisplayPicture")] User user)
         {
+
             if (ModelState.IsValid)
             {
+            
                 db.Entry(user).State = EntityState.Modified;
+
+                // db.Users.Add(user);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Profile");
             }
-           
             return View(user);
+
+         
+
         }
 
         // GET: Users/Delete/5

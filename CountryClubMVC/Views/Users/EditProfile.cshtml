@@ -19,7 +19,7 @@
                 </h3>
             </div>
             <div class="widget-user-image">
-                <img class=" profile-user-img img-responsive img-circle" src="../../Content/NewContent/dist/img/user3-128x128.jpg" alt="User Avatar">
+                <img class=" profile-user-img img-responsive img-circle" src="https://avatars1.githubusercontent.com/u/25950356?s=400&v=4" alt="User Avatar">
             </div>
         </div>
 
@@ -131,18 +131,16 @@
             <div class="form-group">
                 @Html.LabelFor(model => model.DisplayPicture, htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
-                    <div class="form-group">
-                        <br />
-                        <label for="InputFile">File input</label>
-                        <br />
-                        <input type="file" id="InputFile">
+    
+                        @Html.EditorFor(model => model.DisplayPicture, new { htmlAttributes = new { placeholder = "DisplayPicture", @class = "form-control" } })
 
+                        @Html.ValidationMessageFor(model => model.DisplayPicture, "", new { @class = "text-danger" })
 
-                    </div>
                 </div>
+                
             </div>
 
-
+            <br/>
 
 
             <div class="form-group">
