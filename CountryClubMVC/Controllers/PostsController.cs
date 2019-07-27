@@ -17,6 +17,7 @@ namespace CountryClubMVC.Controllers
         // GET: Posts
         public ActionResult Index()
         {
+
             return View(db.Posts.ToList());
         }
 
@@ -51,7 +52,7 @@ namespace CountryClubMVC.Controllers
             if (ModelState.IsValid)
             {
                 post.User_ID = Convert.ToInt32(Session["USERID"]);
-                post.TimePosted = DateTime.Now.ToShortDateString();
+                post.TimePosted = DateTime.Now.ToString();
                 db.Posts.Add(post);
                 db.SaveChanges();
                 return RedirectToAction("Index");

@@ -19,103 +19,107 @@
 }
 
 
-    <h2>Posts</h2>
-
-     
-    <p>
-        <i class="glyphicon glyphicon-plus"></i>
-        @Html.ActionLink("Create New", "Create")
-    </p>
-    <table class="table">
+<h2>Posts</h2>
 
 
-        @foreach (var item in Model)
-        {
-            //Get userID  of Post
-            var PostUserID = item.User_ID;
-            //Get displayPic tied to that ID
-            var postUser = db.Users.Find(PostUserID);
-            //Set Poster's image to
-            var postDP = postUser.DisplayPicture;
-            <div class="col-md-8">
-                <!-- Box Comment -->
-                <div class="box box-widget">
-                    <div class="box-header with-border">
-                        <div class="user-block">
-                            <img src="@postDP" class="img-circle" width="25px" alt="DP">
-                            @*<img class="img-circle" src="../dist/img/user1-128x128.jpg" alt="User Image">*@
-                            <span class="username"><a href="#">@postUser.Username</a></span>
-                            <span class="description">Shared publicly - 7:30 PM Today</span>
-                        </div>
-                        <!-- /.user-block -->
-                        <div class="box-tools">
+<p>
+    <i class="glyphicon glyphicon-plus"></i>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
 
-                            <button type="button" class="btn btn-box-tool" data-widget="collapse">
-                                <i class="fa fa-minus"></i>
-                            </button>
-                            <button type="button" class="btn btn-box-tool" data-widget="edit"><i class="fa fa-bars"></i></button>
-                        </div>
-                        <!-- /.box-tools -->
+
+    @foreach (var item in Model)
+    {
+        //Get userID  of Post
+        var PostUserID = item.User_ID;
+        //Get displayPic tied to that ID
+        var postUser = db.Users.Find(PostUserID);
+        //Set Poster's image to
+        var postDP = postUser.DisplayPicture;
+        //Get nand humanize Datetime
+        var time = Convert.ToDateTime(item.TimePosted).ToString("h:mm tt  dddd, dd MMMM yyyy ");
+
+        <div class="col-md-8">
+            <!-- Box Comment -->
+            <div class="box box-widget">
+                <div class="box-header with-border">
+                    <div class="user-block">
+                        <img src="@postDP" class="img-circle" width="25px" alt="DP">
+                        @*<img class="img-circle" src="../dist/img/user1-128x128.jpg" alt="User Image">*@
+                        <span class="username"><a href="#">@postUser.Username</a></span>
+                        <span class="description">Shared publicly - @time</span>
                     </div>
-                    <!-- /.box-header -->
-                    <div class="box-body">
-                        @*Place a condition to display image if not null*@
-                        @*<img class="img-responsive pad" src="../dist/img/photo2.png" alt="Photo">*@
+                    <!-- /.user-block -->
+                    <div class="box-tools">
 
-                        <p>@item.Content</p>
-                        <button type="button" class="btn btn-default btn-xs"><i class="fa fa-share"></i> Share</button>
-                        <button type="button" class="btn btn-default btn-xs"><i class="fa fa-thumbs-o-up"></i> Like</button>
-                        <span class="pull-right text-muted">@item.Likes likes - 0 comments</span>
+                        <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                            <i class="fa fa-minus"></i>
+                        </button>
+                        <button type="button" class="btn btn-box-tool" data-widget="edit"><i class="fa fa-bars"></i></button>
                     </div>
-                    <!-- /.box-body -->
-                    <div class="box-footer box-comments">
-                        <div class="box-comment">
-                            <!-- User image -->
-                            <img class="img-circle img-sm" src="../dist/img/user3-128x128.jpg" alt="User Image">
-
-                            <div class="comment-text">
-                                <span class="username">
-                                    Maria Gonzales
-                                    <span class="text-muted pull-right">8:03 PM Today</span>
-                                </span><!-- /.username -->
-                                It is a long established fact that a reader will be distracted
-                                by the readable content of a page when looking at its layout.
-                            </div>
-                            <!-- /.comment-text -->
-                        </div>
-                        <!-- /.box-comment -->
-                        <div class="box-comment">
-                            <!-- User image -->
-                            <img class="img-circle img-sm" src="../dist/img/user4-128x128.jpg" alt="User Image">
-
-                            <div class="comment-text">
-                                <span class="username">
-                                    Luna Stark
-                                    <span class="text-muted pull-right">8:03 PM Today</span>
-                                </span><!-- /.username -->
-                                It is a long established fact that a reader will be distracted
-                                by the readable content of a page when looking at its layout.
-                            </div>
-                            <!-- /.comment-text -->
-                        </div>
-                        <!-- /.box-comment -->
-                    </div>
-                    <!-- /.box-footer -->
-                    <div class="box-footer">
-                        <form action="#" method="post">
-                            <img src="@ViewBag.DP" class="img-circle img-sm" width="25px" alt="DP">
-                            <!-- .img-push is used to add margin to elements next to floating images -->
-                            <div class="img-push">
-                                <input type="text" class="form-control input-sm" placeholder="Press enter to post comment">
-                            </div>
-                        </form>
-                    </div>
-                    <!-- /.box-footer -->
+                    <!-- /.box-tools -->
                 </div>
-                <!-- /.box -->
-            </div>
+                <!-- /.box-header -->
+                <div class="box-body">
+                    @*Place a condition to display image if not null*@
+                    @*<img class="img-responsive pad" src="../dist/img/photo2.png" alt="Photo">*@
 
-            @*<tr>
+                    <p>@item.Content</p>
+                    <button type="button" class="btn btn-default btn-xs"><i class="fa fa-share"></i> Share</button>
+                    <button type="button" class="btn btn-default btn-xs"><i class="fa fa-thumbs-o-up"></i> Like</button>
+                    <span class="pull-right text-muted">@item.Likes likes - 0 comments</span>
+                </div>
+                @*Comments*@
+                <!-- /.box-body -->
+                @*<div class="box-footer box-comments">
+                    <div class="box-comment">
+                        <!-- User image -->
+                        <img class="img-circle img-sm" src="../dist/img/user3-128x128.jpg" alt="User Image">
+
+                        <div class="comment-text">
+                            <span class="username">
+                                Maria Gonzales
+                                <span class="text-muted pull-right">8:03 PM Today</span>
+                            </span><!-- /.username -->
+                            It is a long established fact that a reader will be distracted
+                            by the readable content of a page when looking at its layout.
+                        </div>
+                        <!-- /.comment-text -->
+                    </div>
+                    <!-- /.box-comment -->
+                    <div class="box-comment">
+                        <!-- User image -->
+                        <img class="img-circle img-sm" src="../dist/img/user4-128x128.jpg" alt="User Image">
+
+                        <div class="comment-text">
+                            <span class="username">
+                                Luna Stark
+                                <span class="text-muted pull-right">8:03 PM Today</span>
+                            </span><!-- /.username -->
+                            It is a long established fact that a reader will be distracted
+                            by the readable content of a page when looking at its layout.
+                        </div>
+                        <!-- /.comment-text -->
+                    </div>
+                    <!-- /.box-comment -->
+                </div>*@
+                <!-- /.box-footer -->
+                <div class="box-footer">
+                    <form action="#" method="post">
+                        <img src="@ViewBag.DP" class="img-circle img-sm" width="25px" alt="DP">
+                        <!-- .img-push is used to add margin to elements next to floating images -->
+                        <div class="img-push">
+                            <input type="text" class="form-control input-sm" placeholder="Press enter to post comment">
+                        </div>
+                    </form>
+                </div>
+                <!-- /.box-footer -->
+            </div>
+            <!-- /.box -->
+        </div>
+
+        @*<tr>
                 <td>
                     @Html.DisplayFor(modelItem => item.Content)
                 </td>
@@ -140,6 +144,6 @@
                     @Html.ActionLink("Delete", "Delete", new { id = item.Post_ID })
                 </td>
             </tr>*@
-        }
+    }
 
-    </table>
+</table>
