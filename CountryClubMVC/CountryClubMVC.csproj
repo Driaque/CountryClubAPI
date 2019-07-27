@@ -1096,11 +1096,12 @@
     <Content Include="Views\Users\AddFamily.cshtml" />
     <Content Include="Views\Users\GetFamilyMembers.cshtml" />
     <Content Include="Views\Users\GetFriendsList.cshtml" />
+    <Content Include="Views\Posts\Create.cshtml" />
+    <Content Include="Views\Posts\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Views\Friends\" />
-    <Folder Include="Views\Posts\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
