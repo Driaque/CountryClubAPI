@@ -1,4 +1,6 @@
-﻿
+﻿@{
+    ViewBag.RegistrationResponse = Session["RegistrationResponse"];
+}
 <!DOCTYPE html>
 <html>
 <head>
@@ -38,6 +40,17 @@
     <![endif]-->
 </head>
 <body class="hold-transition login-page">
+    @{
+        if (ViewBag.RegistrationResponse == "Success")
+        {
+            <div class="alert alert-success alert-dismissible">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                <h4><i class="icon fa fa-check"></i> Registration Successful! Please Sign In</h4>
+            </div>
+        }
+        Session["RegistrationResponse"] = null;
+
+    }
     <div class="login-box">
         <div class="login-logo">
             <a href="../../#"><b>Country Club</b> Network</a>
@@ -55,13 +68,13 @@
     <!-- iCheck -->
     <script src="~/Content/NewContent/plugins/iCheck/icheck.min.js"></script>
     <script>
-  $(function () {
-    $('input').iCheck({
-      checkboxClass: 'icheckbox_square-blue',
-      radioClass: 'iradio_square-blue',
-      increaseArea: '20%' // optional
-    });
-  });
+        $(function () {
+            $('input').iCheck({
+                checkboxClass: 'icheckbox_square-blue',
+                radioClass: 'iradio_square-blue',
+                increaseArea: '20%' // optional
+            });
+        });
     </script>
 </body>
 </html>

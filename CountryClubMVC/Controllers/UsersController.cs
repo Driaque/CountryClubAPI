@@ -149,32 +149,45 @@ namespace CountryClubMVC.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Register([Bind(Include = "User_ID,Username,Password,Firstname,Lastname,Gender,Email,PhoneNumber,Town,Street,Country,PostalCode,Family_ID,Title,DateOfBirth,DisplayPicture,DateJoined,IsPasswordReset")] User user)
         {
-            if (ModelState.IsValid)
+            try
             {
-                if (!ModelState.IsValid)
+                if (ModelState.IsValid)
                 {
-                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-                }
-                if (user.Family_ID == null)
-                {
-                    Family family = new Family();
-                    family.Family_ID = GenerateFamilyCode(user.Lastname);
-                    family.FamilyName = user.Lastname;
-                    family.MemberCount = family.MemberCount + 1;
-                    db.Familys.Add(family);
-                    user.Family_ID = family.Family_ID;
-                }
-                else
-                {
-                    var family = db.Familys.Where(x => x.Family_ID == user.Family_ID).SingleOrDefault();
-                    family.MemberCount = family.MemberCount + 1;
-                }
+                    if (!ModelState.IsValid)
+                    {
+                        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                    }
+                    if (user.Family_ID == null)
+                    {
+                        Family family = new Family();
+                        family.Family_ID = GenerateFamilyCode(user.Lastname);
+                        family.FamilyName = user.Lastname;
+                        family.MemberCount = family.MemberCount + 1;
+                        db.Familys.Add(family);
+                        user.Family_ID = family.Family_ID;
 
-                user.DateJoined = DateTime.Now.ToShortDateString();
+                        Session["RegistrationResponse"] = "Success"; //To be passed to a modal
 
-                db.Users.Add(user);
-                db.SaveChanges();
-                return RedirectToAction("Login", "Users");
+
+                    }
+                    else
+                    {
+                        var family = db.Familys.Where(x => x.Family_ID == user.Family_ID).SingleOrDefault();
+                        family.MemberCount = family.MemberCount + 1;
+                    }
+
+                    user.DateJoined = DateTime.Now.ToShortDateString();
+
+                    db.Users.Add(user);
+                    db.SaveChanges();
+                    return RedirectToAction("Login", "Users");
+                }
+            }
+            catch (Exception)
+            {
+                Session["RegistrationResponse"] = "Please Complete Form !";
+                return View(new RegisterViewModel { });
+                //throw;
             }
 
             ViewBag.Family_ID = new SelectList(db.Familys, "Family_ID", "FamilyName", user.Family_ID);
