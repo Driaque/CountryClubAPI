@@ -12,7 +12,7 @@ namespace CountryClubMVC.Models
         public int Post_ID { get; set; }
         public string Content { get; set; }
         public int Likes { get; set; }
-        public byte[] Image { get; set; }
+        public string Image { get; set; }
         public string TimePosted { get; set; }
         public string TimeEdited { get; set; }
         public int User_ID { get; set; }
