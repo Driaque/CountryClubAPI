@@ -6,10 +6,9 @@
 }
 
 @{
-    CountryClubMVC.Models.User prevUser = new CountryClubMVC.Models.User();
-
-    prevUser = (CountryClubMVC.Models.User)HttpContext.Current.Session["User"];
-    prevUser = null;
+    CountryClubMVC.Models.User _user = new CountryClubMVC.Models.User();
+    ViewBag.DP = _user.DisplayPicture ?? "../../Content/NewContent/dist/img/user2-160x160.jpg";
+    ViewBag.CoverPic = _user.CoverPicture ?? "../../Content/NewContent/dist/img/photo2.png";
 
 
 }
@@ -51,7 +50,7 @@
             <!-- Widget: user widget style 1 -->
             <div class="box box-widget widget-user">
                 <!-- Add the bg color to the header using any of the bg-* classes -->
-                <div class="widget-user-header bg-black" style="background: url('../../Content/NewContent/dist/img/photo2.png') center center;">
+                <div class="widget-user-header bg-black" style="background: url('@ViewBag.CoverPicture') center center;">
                     <h3 class="widget-user-username">
                         @Html.DisplayFor(modelItem => modelItem.Firstname)
                         @Html.DisplayFor(modelItem => modelItem.Lastname)
