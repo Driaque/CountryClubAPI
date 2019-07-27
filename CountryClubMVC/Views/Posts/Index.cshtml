@@ -1,37 +1,37 @@
 ﻿@model IEnumerable<CountryClubMVC.Models.Post>
 
-@{
+    @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
-}
-@{
+    }
+    @{
     CountryClubMVC.Models.User _user = new CountryClubMVC.Models.User();
     CountryClubMVC.Models.AppDbContext db = new CountryClubMVC.Models.AppDbContext();
 
     if (HttpContext.Current.Session["User"] != null)
     {
-        _user = (CountryClubMVC.Models.User)HttpContext.Current.Session["User"];
-        ViewBag.Name = _user.Username;
-        ViewBag.FamID = _user.Family_ID;
-        ViewBag.UserID = _user.User_ID;
-        ViewBag.DP = _user.DisplayPicture ?? "../../Content/NewContent/dist/img/user2-160x160.jpg";
+    _user = (CountryClubMVC.Models.User)HttpContext.Current.Session["User"];
+    ViewBag.Name = _user.Username;
+    ViewBag.FamID = _user.Family_ID;
+    ViewBag.UserID = _user.User_ID;
+    ViewBag.DP = _user.DisplayPicture ?? "../../Content/NewContent/dist/img/user2-160x160.jpg";
     }
-}
+    }
 
 
-<h2>Home</h2>
+    <h2>Home</h2>
 
 
-<p>
-    <i class="glyphicon glyphicon-plus"></i>
-    @Html.ActionLink("Create New", "Create")
-</p>
+    <p>
+        <i class="glyphicon glyphicon-plus"></i>
+        @Html.ActionLink("Create New", "Create")
+    </p>
 
-<table class="table">
+    <table class="table">
 
 
-    @foreach (var item in Model)
-    {
+        @foreach (var item in Model)
+        {
         //Get userID  of Post
         var PostUserID = item.User_ID;
         //Get displayPic tied to that ID
@@ -40,6 +40,10 @@
         var postDP = postUser.DisplayPicture;
         //Get nand humanize Datetime
         var time = Convert.ToDateTime(item.TimePosted).ToString("h:mm tt  dddd, dd MMMM yyyy ");
+        //Get Poster's Profile link
+        var posterProfile = "Profile/"+ PostUserID;
+        ViewBag.posterProfile = "Profile/"+ PostUserID;
+
 
         <div class="col-md-8">
             <!-- Box Comment -->
@@ -48,7 +52,7 @@
                     <div class="user-block">
                         <img src="@postDP" class="img-circle" width="25px" alt="DP">
                         @*Username should link to Profile*@
-                        <span class="username"><a href="#">@postUser.Username</a></span>
+                        <span class="username"><a href="@Url.Action(@ViewBag.posterProfile, "Users")">@postUser.Username</a></span>
                         <span class="description">Shared publicly - @time</span>
                     </div>
                     <!-- /.user-block -->
@@ -65,10 +69,10 @@
                 <div class="box-body">
                     @*Place a condition to display image if not null*@
                     @{
-                        if (item.Image != null)
-                        {
-                            <img class="img-responsive pad" src="@item.Image" alt="Post Image">
-                        }
+                    if (item.Image != null)
+                    {
+                    <img class="img-responsive pad" src="@item.Image" alt="Post Image">
+                    }
                     }
                     @**@
 
@@ -125,34 +129,34 @@
             </div>
             <!-- /.box -->
         </div>
+        @*
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Content)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Likes)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Image)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TimePosted)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TimeEdited)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.User_ID)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.Post_ID }) |
+                @Html.ActionLink("Details", "Details", new { id = item.Post_ID }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.Post_ID })
+            </td>
+        </tr>*@
+        }
 
-        @*<tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Content)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Likes)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Image)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.TimePosted)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.TimeEdited)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.User_ID)
-                </td>
-                <td>
-                    @Html.ActionLink("Edit", "Edit", new { id = item.Post_ID }) |
-                    @Html.ActionLink("Details", "Details", new { id = item.Post_ID }) |
-                    @Html.ActionLink("Delete", "Delete", new { id = item.Post_ID })
-                </td>
-            </tr>*@
-    }
-
-</table>
+    </table>
 
 

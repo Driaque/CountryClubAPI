@@ -18,7 +18,7 @@ namespace CountryClubMVC.Controllers
         public ActionResult Index()
         {
 
-            return View(db.Posts.ToList());
+            return View(db.Posts.ToList().OrderByDescending(u => u.Post_ID));
         }
 
         // GET: Posts/Details/5
