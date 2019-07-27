@@ -38,8 +38,10 @@ namespace CountryClubMVC.Controllers
 
             return View(friends.ToList());
         }
-        // GET: Users/Details/5
-        public ActionResult Details(int? id)
+
+
+        // GET: Users/Profile/5
+        public new ActionResult Profile(int? id)
         {
             if (id == null)
             {
@@ -52,6 +54,7 @@ namespace CountryClubMVC.Controllers
             }
             return View(user);
         }
+
         //GET: AddFamily
         public ActionResult AddFamily()
         {
@@ -183,7 +186,7 @@ namespace CountryClubMVC.Controllers
         }
 
         // GET: Users/Edit/5
-        public ActionResult Edit(int? id)
+        public  ActionResult EditProfile(int? id)
         {
             if (id == null)
             {
@@ -203,7 +206,7 @@ namespace CountryClubMVC.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "User_ID,Username,Password,Firstname,Lastname,Gender,Email,PhoneNumber,Town,Street,Country,PostalCode,Family_ID,Title,DateOfBirth,DisplayPicture,DateJoined,IsPasswordReset")] User user)
+        public ActionResult Edit([Bind(Include = "User_ID,Username,Firstname,Email,PhoneNumber,Town,Street,Country,PostalCode,DateOfBirth,DisplayPicture")] User user)
         {
             if (ModelState.IsValid)
             {
@@ -211,7 +214,7 @@ namespace CountryClubMVC.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.Family_ID = new SelectList(db.Familys, "Family_ID", "FamilyName", user.Family_ID);
+           
             return View(user);
         }
 

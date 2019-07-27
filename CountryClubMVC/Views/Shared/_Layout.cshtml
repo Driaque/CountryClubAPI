@@ -7,7 +7,11 @@
         ViewBag.Name = _user.Username;
         ViewBag.FamID = _user.Family_ID;
         ViewBag.FamTitle = Session["FAMTIT"];
+        ViewBag.UserID = _user.User_ID;
+        ViewBag.ProfileLink = "Profile/"+_user.User_ID;
+        ViewBag.EditProfileLink = "EditProfile/" + _user.User_ID;
         var isPasswordReset = _user.IsPasswordReset;
+
         //ViewBag.CurrentFinancialDate = eod.FinancialDate;
     }
     else
@@ -153,8 +157,8 @@
                                     </span>
                                 </a>
                                 <ul class="treeview-menu">
-                                    <li><a href="@Url.Action("Create", "Students")"><i class="fa fa-eye"></i> View Profile </a></li>
-                                    <li><a href="@Url.Action("Index", "Students")"><i class="fa fa-plus"></i> Edit Profile</a></li>
+                                    <li><a href="@Url.Action(@ViewBag.ProfileLink, "Users")"><i class="fa fa-eye"></i> View Profile </a></li>
+                                    <li><a href="@Url.Action(@ViewBag.EditProfileLink, "Users")"><i class="fa fa-plus"></i> Edit Profile</a></li>
                                 </ul>
                             </li>
 

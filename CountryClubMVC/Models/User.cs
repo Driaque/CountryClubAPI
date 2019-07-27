@@ -25,6 +25,7 @@ namespace CountryClubMVC.Models
         public string Family_ID { get; set; }
         public string Title { get; set; }
         public string DateOfBirth { get; set; }
+        public string Bio { get; set; }
         public byte[] DisplayPicture { get; set; }
         public string DateJoined { get; set; }
         public bool IsPasswordReset { get; set; }
