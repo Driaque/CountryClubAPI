@@ -19,13 +19,14 @@
 }
 
 
-<h2>Posts</h2>
+<h2>Home</h2>
 
 
 <p>
     <i class="glyphicon glyphicon-plus"></i>
     @Html.ActionLink("Create New", "Create")
 </p>
+
 <table class="table">
 
 
@@ -46,7 +47,7 @@
                 <div class="box-header with-border">
                     <div class="user-block">
                         <img src="@postDP" class="img-circle" width="25px" alt="DP">
-                        @*<img class="img-circle" src="../dist/img/user1-128x128.jpg" alt="User Image">*@
+                        @*Username should link to Profile*@
                         <span class="username"><a href="#">@postUser.Username</a></span>
                         <span class="description">Shared publicly - @time</span>
                     </div>
@@ -63,7 +64,13 @@
                 <!-- /.box-header -->
                 <div class="box-body">
                     @*Place a condition to display image if not null*@
-                    @*<img class="img-responsive pad" src="../dist/img/photo2.png" alt="Photo">*@
+                    @{
+                        if (item.Image != null)
+                        {
+                            <img class="img-responsive pad" src="@item.Image" alt="Post Image">
+                        }
+                    }
+                    @**@
 
                     <p>@item.Content</p>
                     <button type="button" class="btn btn-default btn-xs"><i class="fa fa-share"></i> Share</button>
@@ -147,3 +154,5 @@
     }
 
 </table>
+
+

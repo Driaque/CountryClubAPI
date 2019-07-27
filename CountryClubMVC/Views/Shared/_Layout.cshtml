@@ -62,8 +62,8 @@
     <div class="wrapper">
         <header class="main-header">
             @*<a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
-                    <span class="sr-only">Toggle navigation</span>
-                </a>*@
+                <span class="sr-only">Toggle navigation</span>
+            </a>*@
             <!-- Logo -->
             <a href="@Url.Action("Index", "Posts")" class="logo">
                 <!-- mini logo for sidebar mini 50x50 pixels -->
@@ -142,7 +142,7 @@
                     @{
                         {
                             <li class="treeview">
-                                <a href="#">
+                                <a href="@Url.Action("Index", "Posts")">
                                     <i class="fa fa-home"></i> <span>Home</span>
 
                                 </a>
@@ -240,6 +240,13 @@
 
             <!-- /.content -->
         </div>
+        @*@*ad div*@
+        @*<div class="box-ads box-info pull-right">
+            <div class="box-header header ">
+                <h3 class="box-title">Ads</h3>
+            </div>
+            <p>Ads</p>
+        </div>*@
         <!-- /.content-wrapper -->
         <footer class="main-footer">
             <div class="pull-right hidden-xs">
