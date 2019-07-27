@@ -6,7 +6,7 @@
         Layout = "~/Views/Shared/_Login.cshtml";
     }
     @{
-        CountryClubMVC.Models.User prevUser = new CountryClubMVC.Models.User();
+         CountryClubMVC.Models.User prevUser = new CountryClubMVC.Models.User();
 
         prevUser = (CountryClubMVC.Models.User)HttpContext.Current.Session["User"];
         prevUser = null;

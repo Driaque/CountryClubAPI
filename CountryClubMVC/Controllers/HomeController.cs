@@ -11,8 +11,6 @@ namespace CountryClubMVC.Controllers
     {
         public ActionResult Index()
         {
-            AppDbContext c = new AppDbContext();
-            c.Database.CreateIfNotExists();
             return View();
         }
 

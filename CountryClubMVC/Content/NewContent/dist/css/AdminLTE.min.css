@@ -1598,11 +1598,11 @@ a {
 
 .box {
     position: relative;
-    border-radius: 3px;
+    border-radius: 4px;
     background: #ffffff;
     border-top: 3px solid #d2d6de;
     margin-bottom: 20px;
-    width: 100%;
+    width: 55%;
     box-shadow: 0 1px 1px rgba(0,0,0,0.1)
 }
 
@@ -1611,7 +1611,7 @@ a {
     }
 
     .box.box-info {
-        border-top-color: #00c0ef
+        border-top-color: #57d0ae;
     }
 
     .box.box-danger {
@@ -2388,12 +2388,12 @@ a {
     }
 
 .btn-primary {
-    background-color: #f6f6f6;
+    background-color: #57d0ae;
     border-color: #57d0ae
 }
 
     .btn-primary:hover, .btn-primary:active, .btn-primary.hover {
-        background-color: #ffffff
+        background-color: #57d0ae
     }
 
 .btn-success {

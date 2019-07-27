@@ -46,10 +46,12 @@ namespace CountryClubMVC.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Post_ID,Content,Likes,Image,TimePosted,TimeEdited,User_ID")] Post post)
+        public ActionResult Create([Bind(Include = "Post_ID,Content,Likes,Image,TimePosted,TimeEdited")] Post post)
         {
             if (ModelState.IsValid)
             {
+                post.User_ID = Convert.ToInt32(Session["USERID"]);
+                post.TimePosted = DateTime.Now.ToShortDateString();
                 db.Posts.Add(post);
                 db.SaveChanges();
                 return RedirectToAction("Index");
