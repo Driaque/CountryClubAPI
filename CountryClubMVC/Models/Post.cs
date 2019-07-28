@@ -10,6 +10,7 @@ namespace CountryClubMVC.Models
     {
         [Key]
         public int Post_ID { get; set; }
+        [Required]
         public string Content { get; set; }
         public int Likes { get; set; }
         public string Image { get; set; }

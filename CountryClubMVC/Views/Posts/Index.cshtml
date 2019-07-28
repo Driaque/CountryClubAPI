@@ -1,37 +1,64 @@
 ﻿@model IEnumerable<CountryClubMVC.Models.Post>
 
-    @{
+@{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
-    }
-    @{
+}
+@{
     CountryClubMVC.Models.User _user = new CountryClubMVC.Models.User();
     CountryClubMVC.Models.AppDbContext db = new CountryClubMVC.Models.AppDbContext();
 
     if (HttpContext.Current.Session["User"] != null)
     {
-    _user = (CountryClubMVC.Models.User)HttpContext.Current.Session["User"];
-    ViewBag.Name = _user.Username;
-    ViewBag.FamID = _user.Family_ID;
-    ViewBag.UserID = _user.User_ID;
-    ViewBag.DP = _user.DisplayPicture ?? "../../Content/NewContent/dist/img/user2-160x160.jpg";
+        _user = (CountryClubMVC.Models.User)HttpContext.Current.Session["User"];
+        ViewBag.Name = _user.Username;
+        ViewBag.FamID = _user.Family_ID;
+        ViewBag.UserID = _user.User_ID;
+        ViewBag.DP = _user.DisplayPicture ?? "../../Content/NewContent/dist/img/user2-160x160.jpg";
     }
-    }
+}
 
 
-    <h2>Home</h2>
+<h2>Home</h2>
+
+<div class="col-md-8">
+    <div class="box-header with-border">
+        <div class="box-post box-primary">
+
+            <!-- form start -->
+            <form class="form-horizontal" action="@Url.Action("Create", "Posts")" method="post">
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <img src="@ViewBag.DP" class="img-circle img-lg" width="35px" alt="DP">
+                <!-- .img-push is used to add margin to elements next to floating images -->
+                <div class="img-push">
+                    @*<input type="text" id="Content" name="Content" class="form-control " >*@
+                    <textarea class="form-control input-sm"
+                              cols="20"
+                              id="Content"
+                              name="Content"
+                              rows="3"
+                              placeholder="What's new?"></textarea>
+                    <br />
+                    <input type="text" id="Image" name="Image" class="form-control input-sm" placeholder="http://Media URL.(png, jpg, etc)">
+                    <br />
+                    <button type="submit" class="btn btn-primary btn-block">Post</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    
+    <br />
+</div>
 
 
-    <p>
-        <i class="glyphicon glyphicon-plus"></i>
-        @Html.ActionLink("Create New", "Create")
-    </p>
 
-    <table class="table">
+<table class="table">
 
 
-        @foreach (var item in Model)
-        {
+    @foreach (var item in Model)
+    {
         //Get userID  of Post
         var PostUserID = item.User_ID;
         //Get displayPic tied to that ID
@@ -41,8 +68,10 @@
         //Get nand humanize Datetime
         var time = Convert.ToDateTime(item.TimePosted).ToString("h:mm tt  dddd, dd MMMM yyyy ");
         //Get Poster's Profile link
-        var posterProfile = "Profile/"+ PostUserID;
-        ViewBag.posterProfile = "Profile/"+ PostUserID;
+        var posterProfile = "Profile/" + PostUserID;
+        ViewBag.posterProfile = "Profile/" + PostUserID;
+        //fetch comments with PostID
+        var Comments = db.Comments.Where(x => x.Post_ID == item.Post_ID).ToList();
 
 
         <div class="col-md-8">
@@ -69,94 +98,87 @@
                 <div class="box-body">
                     @*Place a condition to display image if not null*@
                     @{
-                    if (item.Image != null)
-                    {
-                    <img class="img-responsive pad" src="@item.Image" alt="Post Image">
-                    }
+                        if (item.Image != null)
+                        {
+                            <img class="img-responsive pad" src="@item.Image" alt="Post Image">
+                        }
                     }
                     @**@
 
                     <p>@item.Content</p>
-                    <button type="button" class="btn btn-default btn-xs"><i class="fa fa-share"></i> Share</button>
-                    <button type="button" class="btn btn-default btn-xs"><i class="fa fa-thumbs-o-up"></i> Like</button>
-                    <span class="pull-right text-muted">@item.Likes likes - 0 comments</span>
+                    <button type="button" class="btn btn-default btn-xs"><i class="fa fa-heart"></i> Like</button>
+                    <span class="pull-right text-muted">@item.Likes  <i class="fa fa-heart"></i> </span>
                 </div>
-                @*Comments*@
+
+                <div class="box box-widget">
+                    <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                        @Comments.Count() <i class="fa fa-comments"></i>
+                    </button>
+                    @*Comments*@
+                    @{
+                        
+
+                        if (Comments != null)
+                        {
+                            foreach (var comment in Comments)
+                            {
+
+                                //Get userID  of Comment
+                                var commentUserID = comment.User_ID;
+                                //Get displayPic tied to that ID
+                                var commentUser = db.Users.Find(commentUserID);
+                                //Set Commenter's image to
+                                var commentDP = commentUser.DisplayPicture;
+                                //Get comment time
+                                var commentTime = Convert.ToDateTime(comment.Time).ToString("h:mm tt  dd MMMM yy ");
+                                //Get Poster's Profile link
+                                var commenterProfile = "Profile/" + commentUserID;
+                                ViewBag.commenterProfile = commenterProfile;
+
+                                <div class="box-footer box-comments">
+                                    <div class="box-comment">
+                                        <!-- User image -->
+                                        <img src="@commentDP" class="img-circle" width="25px" alt="DP">
+                                        <div class="comment-text">
+                                            <span class="username"></span>
+                                            <span class="username">
+                                                <a href="@Url.Action(@ViewBag.commenterProfile, "Users")">@commentUser.Username</a>
+                                                <span class="text-muted pull-right">@commentTime</span>
+                                            </span><!-- /.username -->
+                                            @comment.Message
+                                        </div>
+                                        <!-- /.comment-text -->
+                                    </div>
+                                    <!-- /.box-comment -->
+                                </div>
+                            }
+
+                        }
+                    }
+                </div>
                 <!-- /.box-body -->
-                @*<div class="box-footer box-comments">
-                    <div class="box-comment">
-                        <!-- User image -->
-                        <img class="img-circle img-sm" src="../dist/img/user3-128x128.jpg" alt="User Image">
-
-                        <div class="comment-text">
-                            <span class="username">
-                                Maria Gonzales
-                                <span class="text-muted pull-right">8:03 PM Today</span>
-                            </span><!-- /.username -->
-                            It is a long established fact that a reader will be distracted
-                            by the readable content of a page when looking at its layout.
-                        </div>
-                        <!-- /.comment-text -->
-                    </div>
-                    <!-- /.box-comment -->
-                    <div class="box-comment">
-                        <!-- User image -->
-                        <img class="img-circle img-sm" src="../dist/img/user4-128x128.jpg" alt="User Image">
-
-                        <div class="comment-text">
-                            <span class="username">
-                                Luna Stark
-                                <span class="text-muted pull-right">8:03 PM Today</span>
-                            </span><!-- /.username -->
-                            It is a long established fact that a reader will be distracted
-                            by the readable content of a page when looking at its layout.
-                        </div>
-                        <!-- /.comment-text -->
-                    </div>
-                    <!-- /.box-comment -->
-                </div>*@
                 <!-- /.box-footer -->
                 <div class="box-footer">
-                    <form action="#" method="post">
+
+                    <form action="@Url.Action("Create", "Comments")" method="post">
+                        @Html.AntiForgeryToken()
                         <img src="@ViewBag.DP" class="img-circle img-sm" width="25px" alt="DP">
                         <!-- .img-push is used to add margin to elements next to floating images -->
                         <div class="img-push">
-                            <input type="text" class="form-control input-sm" placeholder="Press enter to post comment">
+                            <input type="text" id="Message" name="Message" class="form-control input-sm" placeholder="Press enter to post comment">
+                            <input type="hidden" id="Post_ID" name="Post_ID" class="form-control input-sm" value="@item.Post_ID">
+                            <button type="submit" class="btn btn-primary btn-block pull-right">Comment</button>
                         </div>
+
+
                     </form>
                 </div>
                 <!-- /.box-footer -->
             </div>
             <!-- /.box -->
         </div>
-        @*
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Content)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Likes)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Image)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TimePosted)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TimeEdited)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.User_ID)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.Post_ID }) |
-                @Html.ActionLink("Details", "Details", new { id = item.Post_ID }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.Post_ID })
-            </td>
-        </tr>*@
-        }
+    }
 
-    </table>
+</table>
 
 
