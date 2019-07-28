@@ -26,6 +26,7 @@ namespace CountryClubMVC.Models
         public DbSet<Friend> Friends { get; set; }
         public DbSet<Family> Familys { get; set; }
         public DbSet<Comment> Comments { get; set; }
+        public DbSet<Notification> Notifications { get; set; }
 
 
     }

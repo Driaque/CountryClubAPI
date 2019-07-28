@@ -70,6 +70,8 @@
         //Get Poster's Profile link
         var posterProfile = "Profile/" + PostUserID;
         ViewBag.posterProfile = "Profile/" + PostUserID;
+        //fetch comments with PostID
+        var Comments = db.Comments.Where(x => x.Post_ID == item.Post_ID).ToList();
 
 
         <div class="col-md-8">
@@ -105,17 +107,16 @@
 
                     <p>@item.Content</p>
                     <button type="button" class="btn btn-default btn-xs"><i class="fa fa-heart"></i> Like</button>
-                    <span class="pull-right text-muted">@item.Likes  <i class="fa fa-heart"></i> - 0 comments</span>
+                    <span class="pull-right text-muted">@item.Likes  <i class="fa fa-heart"></i> </span>
                 </div>
 
                 <div class="box box-widget">
                     <button type="button" class="btn btn-box-tool" data-widget="collapse">
-                        <i class="fa fa-comments"></i>
+                        @Comments.Count() <i class="fa fa-comments"></i>
                     </button>
                     @*Comments*@
                     @{
-                        //fetch comments with PostID
-                        var Comments = db.Comments.Where(x => x.Post_ID == item.Post_ID).ToList();
+                        
 
                         if (Comments != null)
                         {
