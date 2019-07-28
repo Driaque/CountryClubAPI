@@ -1743,13 +1743,13 @@ a {
                 }
 
         .box.box-solid.box-warning {
-            border: 1px solid #f39c12
+            border: 1px solid #3a9276
         }
 
             .box.box-solid.box-warning > .box-header {
                 color: #fff;
                 background: #f39c12;
-                background-color: #f39c12
+                background-color: #3a9276
             }
 
                 .box.box-solid.box-warning > .box-header a, .box.box-solid.box-warning > .box-header .btn {

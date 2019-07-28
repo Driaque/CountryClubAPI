@@ -205,6 +205,7 @@ namespace CountryClubMVC.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             User user = db.Users.Find(id);
+           
             if (user == null)
             {
                 return HttpNotFound();
@@ -218,19 +219,31 @@ namespace CountryClubMVC.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult EditProfile([Bind(Include = "User_ID,Username,Firstname,Email,PhoneNumber,Town,Street,Country,PostalCode,DateOfBirth,Bio,DisplayPicture")] User user)
+        public ActionResult EditProfile([Bind(Include = "User_ID,Username,Password,Firstname,Lastname,Gender,Email,PhoneNumber,Town,Street,Country,PostalCode,Family_ID,Bio,Title,DateOfBirth,DisplayPicture,CoverPicture,DateJoined,IsPasswordReset")] User user)
         {
+              if (ModelState.IsValid)
+                {
+                    
 
-            if (ModelState.IsValid)
-            {
+                    db.Entry(user).State = EntityState.Modified;
+                    var entry = db.Entry(user);
+                    entry.Property(e => e.DateJoined).IsModified = false;
+                    entry.Property(e => e.Family_ID).IsModified = false;
+                    entry.Property(e => e.Gender).IsModified = false;
+                    entry.Property(e => e.IsPasswordReset).IsModified = false;
+                    entry.Property(e => e.Lastname).IsModified = false;
+                    entry.Property(e => e.Password).IsModified = false;
+                    entry.Property(e => e.Title).IsModified = false;
+                    Session["RegistrationResponse"] = "Success"; //To be passed to a modal
+                    // db.Users.Add(user);
+                    db.SaveChanges();
+                    var UserID = Session["USERID"].ToString();
+                    var profileLink = "Profile/" + UserID;
+                    return RedirectToAction(profileLink);
+                }
             
-                db.Entry(user).State = EntityState.Modified;
-
-                // db.Users.Add(user);
-                db.SaveChanges();
-                return RedirectToAction("Profile");
-            }
-            return View(user);
+           
+            return View();
 
          
 

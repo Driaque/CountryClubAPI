@@ -7,8 +7,16 @@
 
 @{
     CountryClubMVC.Models.User _user = new CountryClubMVC.Models.User();
-    ViewBag.DP = _user.DisplayPicture ?? "../../Content/NewContent/dist/img/user2-160x160.jpg";
-    ViewBag.CoverPic = _user.CoverPicture ?? "../../Content/NewContent/dist/img/photo2.png";
+    if (HttpContext.Current.Session["User"] != null)
+    {
+        _user = (CountryClubMVC.Models.User)HttpContext.Current.Session["User"];
+        ViewBag.DP = _user.DisplayPicture ?? "../../Content/NewContent/dist/img/user2-160x160.jpg";
+        ViewBag.CoverPic = _user.CoverPicture ?? "../../Content/NewContent/dist/img/photo2.png";
+    }
+    else
+    {
+        Response.Redirect("~/Users/Login");
+    }
 
 
 }
@@ -50,7 +58,7 @@
             <!-- Widget: user widget style 1 -->
             <div class="box box-widget widget-user">
                 <!-- Add the bg color to the header using any of the bg-* classes -->
-                <div class="widget-user-header bg-black" style="background: url('@ViewBag.CoverPicture') center center;">
+                <div class="widget-user-header bg-black" style="background: url(@ViewBag.CoverPic) center center;">
                     <h3 class="widget-user-username">
                         @Html.DisplayFor(modelItem => modelItem.Firstname)
                         @Html.DisplayFor(modelItem => modelItem.Lastname)
@@ -58,7 +66,7 @@
                     <h5 class="widget-user-desc">Web Designer</h5>
                 </div>
                 <div class="widget-user-image">
-                    <img class="profile-user-img img-responsive img-circle" src="../../Content/NewContent/dist/img/user2-160x160.jpg" alt="User Avatar">
+                    <img class="profile-user-img img-responsive img-circle" src="@ViewBag.DP" alt="User Avatar">
                 </div>
 
                 <br/>
@@ -119,12 +127,15 @@
                     <hr>
 
                     <strong><i class="fa fa-map-marker margin-r-5"></i> Location</strong>
+                    <p class="text-muted">
 
-                    <p class="text-muted">Malibu, California</p>
+                        @Html.DisplayFor(modelItem => modelItem.Street),  @Html.DisplayFor(modelItem => modelItem.Town), @Html.DisplayFor(modelItem => modelItem.Country)
+                    </p>
+                   
 
                     <hr>
 
-                    <strong><i class="fa fa-pencil margin-r-5"></i> Skills</strong>
+                    <strong><i class="fa fa-pencil margin-r-5"></i> Interests</strong>
 
                     <p>
                         <span class="label label-danger">UI Design</span>
