@@ -14,5 +14,6 @@ namespace CountryClubMVC.Models
         public string Time { get; set; }
         public int Likes { get; set; }
         public int User_ID { get; set; }
+        public int Post_ID { get; set; }
     }
 }
