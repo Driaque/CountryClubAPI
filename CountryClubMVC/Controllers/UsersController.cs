@@ -15,6 +15,23 @@ namespace CountryClubMVC.Controllers
     {
         private AppDbContext db = new AppDbContext();
 
+        // GET: People
+        public ActionResult People(string searchString)
+        {
+            var user = from xm in db.Users
+                         select xm;
+
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                user = user.Where(o => o.Firstname.Contains(searchString));
+
+            }
+
+
+           
+            return View(user.ToList());
+        }
+
         // GET: Users
         public ActionResult Index()
         {

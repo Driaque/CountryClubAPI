@@ -11,85 +11,74 @@
 
         if (ViewBag.FamTitle == "Parent")
         {
-            <button class="btn btn-primary">@Html.ActionLink("Add New Family Member", "AddFamily")</button>
-            }
+            @*<button> <i class="glyphicon glyphicon-plus"></i>@Html.ActionLink("Add New Family Member", "AddFamily")</button>*@
+            <a href="@Url.Action("AddFamily", "Users")"><img src="~/Content/NewContent/dist/img/addtogroup.png" width="90"/></a>
         }
+    }
 </p>
-<table class="table">
-    <tr>
 
-        <th>
-            @Html.DisplayNameFor(model => model.Firstname)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Lastname)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Gender)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Email)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.PhoneNumber)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Title)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.DateOfBirth)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.DisplayPicture)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.DateJoined)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.IsPasswordReset)
-        </th>
-        <th></th>
-    </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        
-        <td>
-            @Html.DisplayFor(modelItem => item.Firstname)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Lastname)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Gender)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Email)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.PhoneNumber)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Title)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.DateOfBirth)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.DisplayPicture)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.DateJoined)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.IsPasswordReset)
-        </td>
-        <td>
-            @Html.ActionLink("View Profile", "#", new { id=item.User_ID }) |
-            @Html.ActionLink("Message", "#", new { id=item.User_ID }) |
-            @Html.ActionLink("Remove", "#", new { id=item.User_ID })
-        </td>
-    </tr>
+@{
+    CountryClubMVC.Models.User _user = new CountryClubMVC.Models.User();
+    CountryClubMVC.Models.AppDbContext db = new CountryClubMVC.Models.AppDbContext();
+
+    if (HttpContext.Current.Session["User"] != null)
+    {
+        _user = (CountryClubMVC.Models.User)HttpContext.Current.Session["User"];
+        ViewBag.Name = _user.Username;
+        ViewBag.FamID = _user.Family_ID;
+        ViewBag.UserID = _user.User_ID;
+        ViewBag.DP = _user.DisplayPicture ?? "../../Content/NewContent/dist/img/user2-160x160.jpg";
+    }
 }
 
-</table>
+
+<div>
+
+    @foreach (var item in Model)
+    {
+        //Get userID  of User
+        var UserID = item.User_ID;
+        //Get displayPic tied to that ID
+        var User = db.Users.Find(UserID);
+        //Set Poster's image to
+        var userDP = User.DisplayPicture;
+        //Get and Set user Full name
+        var userfullName = User.Firstname + " " + User.Lastname;
+        // ViewBag.userfullName = userfullName;
+        //Get User Title
+        var userTitle = User.Title;
+        //Get Poster's Profile link
+        var userProfile = "Profile/" + UserID;
+        ViewBag.userProfile = "Profile/" + UserID;
+        //Get Following and Followers:
+        var userFollowers = User.Followers;
+        var userFollowing = User.Following;
+
+        //new div:
+        <div class="col-md-4">
+            <!-- Widget: user widget style 1 -->
+            <div class="box box-widget widget-user-2">
+                <!-- Add the bg color to the header using any of the bg-* classes -->
+                <div class="widget-user-header bg-green-gradient">
+                    <div class="widget-user-image" width=auto>
+                        <img class="img-circle" src="@userDP" alt="User Avatar">
+                    </div>
+                    <!-- /.widget-user-image -->
+                    <h3><a href="@Url.Action(@ViewBag.userProfile, "Users")">@userfullName</a></h3>
+                    <h5 class="widget-user-desc">@userTitle</h5>
+                </div>
+                <div class="box-footer no-padding">
+                    <ul class="nav nav-stacked">
+                        <li><a href="#">Family <span class="pull-right badge bg-blue">31</span></a></li>
+                        <li><a href="#">Following <span class="pull-right badge bg-aqua">5</span></a></li>
+                        <li><a href="#">Followers <span class="pull-right badge bg-red">842</span></a></li>
+                    </ul>
+                </div>
+            </div>
+            <!-- /.widget-user -->
+        </div>
+    }
+
+</div>
+

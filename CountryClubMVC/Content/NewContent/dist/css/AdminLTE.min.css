@@ -3261,12 +3261,18 @@ table.text-center, table.text-center td, table.text-center th {
         border: 3px solid #fff
     }
 
+    .widget-user .widget-userR-image > img {
+        width: 110px;
+        height: auto;
+        border: 3px solid #fff
+    }
+
 .widget-user .box-footer {
     padding-top: 30px
 }
 
 .widget-user-2 .widget-user-header {
-    padding: 20px;
+    padding: 30px;
     border-top-right-radius: 3px;
     border-top-left-radius: 3px
 }
@@ -3289,7 +3295,8 @@ table.text-center, table.text-center td, table.text-center th {
 .widget-user-2 .widget-user-image > img {
     width: 65px;
     height: auto;
-    float: left
+    float: left ;
+    border: 2px solid #fff;
 }
 
 .mailbox-messages > .table {
