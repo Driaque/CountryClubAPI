@@ -28,6 +28,6 @@ namespace CountryClubMVC.Models
         public DbSet<Comment> Comments { get; set; }
         public DbSet<Notification> Notifications { get; set; }
 
-
+        public System.Data.Entity.DbSet<CountryClubMVC.Models.Followership> Followerships { get; set; }
     }
 }

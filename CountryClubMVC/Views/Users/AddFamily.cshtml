@@ -2,56 +2,64 @@
 @model CountryClubMVC.ViewModels.AddFamilyViewModel
 
     <div class = "control-label col-md-7" align ="center">
-        <div class="box box-primary" align ="center" >
-            @Html.ValidationSummary(false, "", new { @class = "text-danger" })
-            @using (Html.BeginForm("AddFamily", "Users", FormMethod.Post))
-            {
-                @Html.AntiForgeryToken()
-                <div class="form-group has-feedback">
-                    @Html.TextBoxFor(model => model.Username, new { @class = "form-control", placeholder = "Username" })
-                    <span class="glyphicon glyphicon-user form-control-feedback"></span>
-                </div>
+        <div class="control-label col-md-6">
+            
+            <div class="box box-primary" align="center">
+                <br />
 
-                <div class="form-group has-feedback">
-                    @Html.TextBoxFor(model => model.Firstname, new { @class = "form-control", placeholder = "Firstname" })
-                    <span class="glyphicon glyphicon-user form-control-feedback"></span>
-                </div>
-
-
-                <div class="form-group has-feedback">
-                    @Html.TextBoxFor(model => model.Email, new { @class = "form-control", placeholder = "Email" })
-                    <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
-                </div>
-
-
-                <div class="form-group has-feedback">
-
-                    Male:   @Html.RadioButton("Gender", "Male")
-                    Female: @Html.RadioButton("Gender", "Female")
-                    Unspecified: @Html.RadioButton("Gender", "Unspecified")
-                </div>
-
-                <div class="form-group has-feedback">
-
-                    Parent: @Html.RadioButton("Title", "Parent")
-                    Child: @Html.RadioButton("Title", "Child")
-                </div>
-
-                <div class="form-group has-feedback">
-                    @Html.TextBoxFor(model => model.Password, new { @class = "form-control", placeholder = "Password", type = "password" })
-                    <span class="glyphicon glyphicon-lock form-control-feedback"></span>
-                </div>
-                <div class="form-group has-feedback">
-                    <input type="password" class="form-control" placeholder="Retype password">
-                    <span class="glyphicon glyphicon-log-in form-control-feedback"></span>
-                </div>
-                <div class="row">
-                    
-                    <div class="col-xs-4" >
-                        <button align ="center" type="submit" class="btn btn-primary btn-block btn-flat">Add to Family</button>
+                <p>Add to Family</p>
+                <br />
+                @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+                @using (Html.BeginForm("AddFamily", "Users", FormMethod.Post))
+                {
+                    @Html.AntiForgeryToken()
+                    <div class="form-group has-feedback">
+                        @Html.TextBoxFor(model => model.Username, new { @class = "form-control", placeholder = "Username" })
+                        <span class="glyphicon glyphicon-user form-control-feedback"></span>
                     </div>
-                    <!-- /.col -->
-                </div>
-            }
+
+                    <div class="form-group has-feedback">
+                        @Html.TextBoxFor(model => model.Firstname, new { @class = "form-control", placeholder = "Firstname" })
+                        <span class="glyphicon glyphicon-user form-control-feedback"></span>
+                    </div>
+
+
+                    <div class="form-group has-feedback">
+                        @Html.TextBoxFor(model => model.Email, new { @class = "form-control", placeholder = "Email" })
+                        <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+                    </div>
+
+
+                    <div class="form-group has-feedback">
+
+                        Male:   @Html.RadioButton("Gender", "Male")
+                        Female: @Html.RadioButton("Gender", "Female")
+                        Unspecified: @Html.RadioButton("Gender", "Unspecified")
+                    </div>
+
+                    <div class="form-group has-feedback">
+
+                        Parent: @Html.RadioButton("Title", "Parent")
+                        Child: @Html.RadioButton("Title", "Child")
+                    </div>
+
+                    <div class="form-group has-feedback">
+                        @Html.TextBoxFor(model => model.Password, new { @class = "form-control", placeholder = "Password", type = "password" })
+                        <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+                    </div>
+                    <div class="form-group has-feedback">
+                        <input type="password" class="form-control" placeholder="Retype password">
+                        <span class="glyphicon glyphicon-log-in form-control-feedback"></span>
+                    </div>
+                    <div class="row">
+
+                        <div class="col-xs-4">
+                            <button align="center" type="submit" class="btn btn-primary btn-block btn-flat">Add to Family</button>
+                        </div>
+                        <!-- /.col -->
+                    </div>
+                }
+            </div>
+
         </div>
-    </div>
+        </div>

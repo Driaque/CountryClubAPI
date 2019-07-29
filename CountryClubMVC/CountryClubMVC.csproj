@@ -127,6 +127,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\CommentsController.cs" />
+    <Compile Include="Controllers\FollowershipsController.cs" />
     <Compile Include="Controllers\FriendsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\PostsController.cs" />
@@ -139,6 +140,7 @@
     <Compile Include="Models\Comment.cs" />
     <Compile Include="Models\DbInitializer.cs" />
     <Compile Include="Models\Family.cs" />
+    <Compile Include="Models\Followership.cs" />
     <Compile Include="Models\Friend.cs" />
     <Compile Include="Models\Message.cs" />
     <Compile Include="Models\Notification.cs" />
@@ -1107,6 +1109,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Views\Comments\" />
+    <Folder Include="Views\Followerships\" />
     <Folder Include="Views\Friends\" />
   </ItemGroup>
   <ItemGroup>
