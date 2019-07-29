@@ -10,129 +10,118 @@ using CountryClubMVC.Models;
 
 namespace CountryClubMVC.Controllers
 {
-    public class CommentsController : Controller
+    public class NotificationsController : Controller
     {
         private AppDbContext db = new AppDbContext();
 
-        // GET: Comments
+        // GET: Notifications
         public ActionResult Index()
         {
-            return View(db.Comments.ToList());
+            //GEt UserID
+            var userID = Convert.ToInt32(Session["User_ID"]);
+
+            var notifications = db.Notifications.Where(x => x.User_ID == userID && x.IsSeen == false).ToList();
+
+            foreach(var notification in notifications)
+            {
+                notification.IsSeen = true;
+                db.SaveChanges();
+            }
+
+            return View(notifications);
         }
 
-        // GET: Comments/Details/5
+        // GET: Notifications/Details/5
         public ActionResult Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Comment comment = db.Comments.Find(id);
-            if (comment == null)
+            Notification notification = db.Notifications.Find(id);
+            if (notification == null)
             {
                 return HttpNotFound();
             }
-            return View(comment);
+            return View(notification);
         }
 
-        // GET: Comments/Create
+        // GET: Notifications/Create
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: Comments/Create
+        // POST: Notifications/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Comment_ID,Message,Time,Likes,User_ID,Post_ID")] Comment comment)
+        public ActionResult Create([Bind(Include = "NotificationID,User_ID,Message,Time,IsSeen")] Notification notification)
         {
             if (ModelState.IsValid)
             {
-                //Get Post from db
-                var post = db.Posts.Find(comment.Post_ID);
-                //Add comment to the collection of comments 
-
-                comment.User_ID = Convert.ToInt32(Session["USERID"]);
-                //get Comment User
-                var commentUser = db.Users.Find(comment.User_ID);
-                comment.Time = DateTime.Now.ToString();
-                //post.Comments.Add(comment);
-                db.Comments.Add(comment);
-
-
-                //Nofity Post user if 
-                //var currentUserID = Convert.ToInt32(Session["User_ID"]);
-                if (commentUser.User_ID != post.User_ID)
-                {
-                    var notification = new Notification();
-                    notification.User_ID = post.User_ID;
-                    notification.Message = $"{commentUser.Username} commented on your post";
-                    notification.Time = DateTime.Now.ToString();
-                    db.Notifications.Add(notification);
-                }
-               
+                db.Notifications.Add(notification);
                 db.SaveChanges();
-                return RedirectToAction("Index", "Posts");
+                return RedirectToAction("Index");
             }
 
-            return View(comment);
+            return View(notification);
         }
 
-        // GET: Comments/Edit/5
+        // GET: Notifications/Edit/5
         public ActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Comment comment = db.Comments.Find(id);
-            if (comment == null)
+            Notification notification = db.Notifications.Find(id);
+            if (notification == null)
             {
                 return HttpNotFound();
             }
-            return View(comment);
+            return View(notification);
         }
 
-        // POST: Comments/Edit/5
+        // POST: Notifications/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Comment_ID,Message,Time,Likes,User_ID")] Comment comment)
+        public ActionResult Edit([Bind(Include = "NotificationID,User_ID,Message,Time,IsSeen")] Notification notification)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(comment).State = EntityState.Modified;
+                db.Entry(notification).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            return View(comment);
+            return View(notification);
         }
 
-        // GET: Comments/Delete/5
+        // GET: Notifications/Delete/5
         public ActionResult Delete(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Comment comment = db.Comments.Find(id);
-            if (comment == null)
+            Notification notification = db.Notifications.Find(id);
+            if (notification == null)
             {
                 return HttpNotFound();
             }
-            return View(comment);
+            return View(notification);
         }
 
-        // POST: Comments/Delete/5
+        // POST: Notifications/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Comment comment = db.Comments.Find(id);
-            db.Comments.Remove(comment);
+            Notification notification = db.Notifications.Find(id);
+            db.Notifications.Remove(notification);
             db.SaveChanges();
             return RedirectToAction("Index");
         }
