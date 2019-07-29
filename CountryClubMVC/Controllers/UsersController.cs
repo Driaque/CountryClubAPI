@@ -234,8 +234,8 @@ namespace CountryClubMVC.Controllers
                     entry.Property(e => e.Lastname).IsModified = false;
                     entry.Property(e => e.Password).IsModified = false;
                     entry.Property(e => e.Title).IsModified = false;
-                    Session["RegistrationResponse"] = "Success"; //To be passed to a modal
-                    // db.Users.Add(user);
+                    entry.Property(e => e.DateOfBirth).IsModified = false;
+                // db.Users.Add(user);
                     db.SaveChanges();
                     var UserID = Session["USERID"].ToString();
                     var profileLink = "Profile/" + UserID;
@@ -248,6 +248,52 @@ namespace CountryClubMVC.Controllers
          
 
         }
+
+        //GET: Login
+        public ActionResult Settings(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            User user = db.Users.Find(id);
+
+            if (user == null)
+            {
+                return HttpNotFound();
+            }
+
+
+            return View(user);
+        }
+
+        // POST: Login
+        [HttpPost]
+        public ActionResult Settings(SettingsViewModel user)
+        {
+
+            if (!ModelState.IsValid)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            var userdetails = db.Users.Where(x => x.Password == user.Password).SingleOrDefault(i =>  i.Password == user.Password); ;
+
+            if (userdetails != null)
+            {
+                Session["User"] = userdetails;
+                Session["USERID"] = userdetails.User_ID;
+                Session["FAMID"] = userdetails.Family_ID;
+                Session["FAMTIT"] = userdetails.Title;
+                Session["FAMNAME"] = userdetails.Lastname;
+
+                return RedirectToAction("Index", "Posts");
+
+            }
+            ModelState.AddModelError("", "Invalid Credentials");
+
+            return View();
+        }
+
 
         // GET: Users/Delete/5
         public ActionResult Delete(int? id)

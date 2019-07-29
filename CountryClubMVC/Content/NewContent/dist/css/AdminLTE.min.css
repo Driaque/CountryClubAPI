@@ -1625,9 +1625,9 @@ a {
     box-shadow: 0 1px 1px rgba(0,0,0,0.1);
 }
 
-    .box.box-primary {
-        border-top-color: #3c8dbc
-    }
+.box.box-primary {
+    border-top-color: #ececec
+}
 
     .box.box-info {
         border-top-color: #57d0ae;
