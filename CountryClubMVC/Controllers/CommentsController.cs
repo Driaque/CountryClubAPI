@@ -55,9 +55,19 @@ namespace CountryClubMVC.Controllers
                 //Add comment to the collection of comments 
                 
                 comment.User_ID = Convert.ToInt32(Session["USERID"]);
+                //get Comment User
+                var commentUser = db.Users.Find(comment.User_ID);
                 comment.Time = DateTime.Now.ToString();
                 //post.Comments.Add(comment);
                 db.Comments.Add(comment);
+                
+
+                //Nofity Post user
+                var notification = new Notification();
+                notification.User_ID = post.User_ID;
+                notification.Message = $"{commentUser.Username} commented on your post";
+                notification.Time = DateTime.Now.ToString();
+                db.Notifications.Add(notification);
                 db.SaveChanges();
                 return RedirectToAction("Index", "Posts");
             }
