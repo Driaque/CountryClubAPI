@@ -15,6 +15,7 @@ namespace CountryClubMVC.Controllers
     {
         private AppDbContext db = new AppDbContext();
 
+
         // GET: People
         public ActionResult People(string searchString)
         {
@@ -31,6 +32,27 @@ namespace CountryClubMVC.Controllers
            
             return View(user.ToList());
         }
+
+        public  ActionResult FollowUser(int? id)
+        {
+            //Get the current user id from session and make it follower ID\
+            var followerID = Session["USERID"];
+            // For following Query follower table to get every follower id that contiains (user_id)
+
+
+            var userprofile = db.Users.Find(id);
+            var follower = db.Users.Find(followerID);
+            //add record of following
+            userprofile.Followers.Add(follower);
+            //save changes to db
+            db.SaveChanges();
+           
+            
+            // return RedirectToAction("Index", "Posts");
+                       
+            return View();
+        }
+
 
         // GET: Users
         public ActionResult Index()

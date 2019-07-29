@@ -13,14 +13,14 @@ namespace CountryClubMVC.Models
 
         }
         public DbSet<User> Users { get; set; }
-        protected override void OnModelCreating(DbModelBuilder modelBuilder)
-        {
-            modelBuilder.Entity<User>()
-                .HasMany(x => x.Followers).WithMany(x => x.Following)
-                .Map(x => x.ToTable("Followers")
-                    .MapLeftKey("UserId")
-                    .MapRightKey("FollowerId"));
-        }
+        //protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        //{
+        //    modelBuilder.Entity<User>()
+        //        .HasMany(x => x.Followers).WithMany(x => x.Following)
+        //        .Map(x => x.ToTable("Followers")
+        //            .MapLeftKey("UserId")
+        //            .MapRightKey("FollowerId"));
+        //}
         public DbSet<Post> Posts { get; set; }
         public DbSet<Message> Messages { get; set; }
         public DbSet<Friend> Friends { get; set; }
