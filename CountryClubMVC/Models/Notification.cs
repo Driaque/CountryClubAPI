@@ -13,6 +13,7 @@ namespace CountryClubMVC.Models
         public int User_ID { get; set; }
         [Required]
         public string Message { get; set; }
+        public string Time { get; set; }
         public bool IsSeen { get; set; }
     }
 }
