@@ -1105,11 +1105,11 @@
     <Content Include="Views\Posts\Index.cshtml" />
     <Content Include="Views\Posts\Create.cshtml" />
     <Content Include="Views\Users\People.cshtml" />
+    <Content Include="Views\Followerships\Followers.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Views\Comments\" />
-    <Folder Include="Views\Followerships\" />
     <Folder Include="Views\Friends\" />
   </ItemGroup>
   <ItemGroup>
