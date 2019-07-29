@@ -205,6 +205,7 @@ namespace CountryClubMVC.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             User user = db.Users.Find(id);
+           
             if (user == null)
             {
                 return HttpNotFound();
@@ -218,23 +219,81 @@ namespace CountryClubMVC.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult EditProfile([Bind(Include = "User_ID,Username,Firstname,Email,PhoneNumber,Town,Street,Country,PostalCode,DateOfBirth,Bio,DisplayPicture")] User user)
+        public ActionResult EditProfile([Bind(Include = "User_ID,Username,Password,Firstname,Lastname,Gender,Email,PhoneNumber,Town,Street,Country,PostalCode,Family_ID,Bio,Title,DateOfBirth,DisplayPicture,CoverPicture,DateJoined,IsPasswordReset")] User user)
         {
+              if (ModelState.IsValid)
+                {
+                    
 
-            if (ModelState.IsValid)
-            {
-            
-                db.Entry(user).State = EntityState.Modified;
-
+                    db.Entry(user).State = EntityState.Modified;
+                    var entry = db.Entry(user);
+                    entry.Property(e => e.DateJoined).IsModified = false;
+                    entry.Property(e => e.Family_ID).IsModified = false;
+                    entry.Property(e => e.Gender).IsModified = false;
+                    entry.Property(e => e.IsPasswordReset).IsModified = false;
+                    entry.Property(e => e.Lastname).IsModified = false;
+                    entry.Property(e => e.Password).IsModified = false;
+                    entry.Property(e => e.Title).IsModified = false;
+                    entry.Property(e => e.DateOfBirth).IsModified = false;
                 // db.Users.Add(user);
-                db.SaveChanges();
-                return RedirectToAction("Profile");
-            }
-            return View(user);
+                    db.SaveChanges();
+                    var UserID = Session["USERID"].ToString();
+                    var profileLink = "Profile/" + UserID;
+                    return RedirectToAction(profileLink);
+                }
+            
+           
+            return View();
 
          
 
         }
+
+        //GET: Login
+        public ActionResult Settings(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            User user = db.Users.Find(id);
+
+            if (user == null)
+            {
+                return HttpNotFound();
+            }
+
+
+            return View(user);
+        }
+
+        // POST: Login
+        [HttpPost]
+        public ActionResult Settings(SettingsViewModel user)
+        {
+
+            if (!ModelState.IsValid)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            var userdetails = db.Users.Where(x => x.Password == user.Password).SingleOrDefault(i =>  i.Password == user.Password); ;
+
+            if (userdetails != null)
+            {
+                Session["User"] = userdetails;
+                Session["USERID"] = userdetails.User_ID;
+                Session["FAMID"] = userdetails.Family_ID;
+                Session["FAMTIT"] = userdetails.Title;
+                Session["FAMNAME"] = userdetails.Lastname;
+
+                return RedirectToAction("Index", "Posts");
+
+            }
+            ModelState.AddModelError("", "Invalid Credentials");
+
+            return View();
+        }
+
 
         // GET: Users/Delete/5
         public ActionResult Delete(int? id)
