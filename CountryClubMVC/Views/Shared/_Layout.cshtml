@@ -1,5 +1,6 @@
 ﻿@{
     CountryClubMVC.Models.User _user = new CountryClubMVC.Models.User();
+    CountryClubMVC.Models.AppDbContext db = new CountryClubMVC.Models.AppDbContext();
 
     if (HttpContext.Current.Session["User"] != null)
     {
@@ -9,7 +10,7 @@
         ViewBag.FamTitle = Session["FAMTIT"];
         ViewBag.UserID = _user.User_ID;
         ViewBag.DPLink = _user.DisplayPicture ?? "../../Content/NewContent/dist/img/user2-160x160.jpg";
-        ViewBag.ProfileLink = "Profile/"+_user.User_ID;
+        ViewBag.ProfileLink = "Profile/" + _user.User_ID;
         ViewBag.EditProfileLink = "EditProfile/" + _user.User_ID;
         var isPasswordReset = _user.IsPasswordReset;
 
@@ -19,6 +20,9 @@
     {
         Response.Redirect("~/Users/Login");
     }
+
+    //Get NotificationCount
+    var NotificationCount = db.Notifications.Where(x => x.User_ID == _user.User_ID && x.IsSeen == false).ToList().Count();
 
 
 }
@@ -85,21 +89,25 @@
 
                 <div class="navbar-custom-menu">
 
-                    <ul class="nav navbar-nav">
-                        <!-- Messages: style can be found in dropdown.less-->
-                        <li class="dropdown messages-menu">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                <i class="fa fa-envelope-o"></i>
-                                <span class="label label-success">4</span>
-                            </a>
-                    </ul>
+                    @*<ul class="nav navbar-nav">
+                            <li class="dropdown messages-menu">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                    <i class="fa fa-envelope-o"></i>
+                                    <span class="label label-success">4</span>
+                                </a>
+                        </ul>*@
 
                     <ul class="nav navbar-nav">
                         <!-- Messages: style can be found in dropdown.less-->
                         <li class="dropdown messages-menu">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                 <i class="fa fa-bell-o"></i>
-                                <span class="label label-success">4</span>
+                                @{ if (NotificationCount != 0)
+                                    {
+                                        <span class="label label-success">@NotificationCount</span>
+                                    }
+                                }
+
                             </a>
                     </ul>
 
@@ -117,7 +125,7 @@
                     <ul class="nav navbar-nav">
                         <!-- Messages: style can be found in dropdown.less-->
                         <li class="dropdown messages-menu">
-                            <a href="@Url.Action("Login", "Users")" >
+                            <a href="@Url.Action("Login", "Users")">
                                 <i class="fa fa-sign-out"></i>
                             </a>
                     </ul>
@@ -131,7 +139,7 @@
             <section class="sidebar">
                 <div class="user-panel">
                     <div class="pull-left image">
-                        <img src=@ViewBag.DPLink  class="img-circle" alt="User Image">
+                        <img src=@ViewBag.DPLink class="img-circle" alt="User Image">
                     </div>
                     <div class="pull-left info">
                         <p>@ViewBag.Name</p>
@@ -189,16 +197,27 @@
                                     <i class="fa fa-users"></i> <span>People</span>
                                 </a>
                             </li>
+                            @*<li class="treeview">
+                                    <a href="#">
+                                        <i class="fa fa-envelope"></i> <span>Message</span>
+                                        <span class="pull-right-container">
+                                            <i class="fa fa-angle-left pull-right"></i>
+                                        </span>
+                                    </a>
+                                    <ul class="treeview-menu">
+                                        <li><a href="@Url.Action("Create", "Classes")"><i class="fa fa-user-plus"></i> Compose New Message</a></li>
+                                        <li><a href="@Url.Action("Index", "Classes")"><i class="fa fa-eye"></i> View Messages</a></li>
+                                    </ul>
+                                </li>*@
                             <li class="treeview">
                                 <a href="#">
-                                    <i class="fa fa-envelope"></i> <span>Message</span>
+                                    <i class="fa fa-bell"></i> <span>Notifications</span>
                                     <span class="pull-right-container">
                                         <i class="fa fa-angle-left pull-right"></i>
                                     </span>
                                 </a>
                                 <ul class="treeview-menu">
-                                    <li><a href="@Url.Action("Create", "Classes")"><i class="fa fa-user-plus"></i> Compose New Message</a></li>
-                                    <li><a href="@Url.Action("Index", "Classes")"><i class="fa fa-eye"></i> View Messages</a></li>
+                                    <li><a href="@Url.Action("Index", "Notifications")"><i class="fa fa-eye"></i> View Notifications</a></li>
                                 </ul>
                             </li>
 
@@ -209,11 +228,11 @@
                                         <i class="fa fa-angle-left pull-right"></i>
                                     </span>
                                 </a>
-                                <ul class="treeview-menu">
-                                    <li><a href="@Url.Action("Create", "Tests")"><i class="fa fa-plus-square"></i> Edit Profile</a></li>
-                                    <li><a href="@Url.Action("Index", "Tests")"><i class="fa fa-eye"></i> Change Password</a></li>
-                                    <li><a href="@Url.Action("Create", "TestPayments")"><i class="fa fa-plus-square"></i> Send Bug </a></li>
-                                </ul>
+                                @*<ul class="treeview-menu">
+                                        <li><a href="@Url.Action("Create", "Tests")"><i class="fa fa-plus-square"></i> Edit Profile</a></li>
+                                        <li><a href="@Url.Action("Index", "Tests")"><i class="fa fa-eye"></i> Change Password</a></li>
+                                        <li><a href="@Url.Action("Create", "TestPayments")"><i class="fa fa-plus-square"></i> Send Bug </a></li>
+                                    </ul>*@
                             </li>
 
 
