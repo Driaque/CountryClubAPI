@@ -7,8 +7,16 @@
 
 @{
     CountryClubMVC.Models.User _user = new CountryClubMVC.Models.User();
-    ViewBag.DP = _user.DisplayPicture ?? "../../Content/NewContent/dist/img/user2-160x160.jpg";
-    ViewBag.CoverPic = _user.CoverPicture ?? "../../Content/NewContent/dist/img/photo2.png";
+    if (HttpContext.Current.Session["User"] != null)
+    {
+        _user = (CountryClubMVC.Models.User)HttpContext.Current.Session["User"];
+        ViewBag.DP = _user.DisplayPicture ?? "../../Content/NewContent/dist/img/user2-160x160.jpg";
+        ViewBag.CoverPic = _user.CoverPicture ?? "../../Content/NewContent/dist/img/photo2.png";
+    }
+    else
+    {
+        Response.Redirect("~/Users/Login");
+    }
 
 
 }
@@ -50,15 +58,18 @@
             <!-- Widget: user widget style 1 -->
             <div class="box box-widget widget-user">
                 <!-- Add the bg color to the header using any of the bg-* classes -->
-                <div class="widget-user-header bg-black" style="background: url('@ViewBag.CoverPicture') center center;">
+                <div class="widget-user-header bg-black" style="background: url(@ViewBag.CoverPic) center center;">
                     <h3 class="widget-user-username">
                         @Html.DisplayFor(modelItem => modelItem.Firstname)
                         @Html.DisplayFor(modelItem => modelItem.Lastname)
                     </h3>
-                    <h5 class="widget-user-desc">Web Designer</h5>
+                    <h5 class="widget-user-desc">
+                        @Html.DisplayFor(modelItem => modelItem.Title)
+                    
+                    </h5>
                 </div>
                 <div class="widget-user-image">
-                    <img class="profile-user-img img-responsive img-circle" src="../../Content/NewContent/dist/img/user2-160x160.jpg" alt="User Avatar">
+                    <img class="profile-user-img img-responsive img-circle" src="@ViewBag.DP" alt="User Avatar">
                 </div>
 
                 <br/>
@@ -95,7 +106,7 @@
             <!-- /.widget-user -->
         </div>
 
-        <div class="col-md-12">
+        <div class="col-md-5">
             <div class="box box-warning box-solid">
                 <div class="box-header with-border">
                     <h3 class="box-title">ABOUT ME</h3>
@@ -109,6 +120,22 @@
                 </div>
                 <!-- /.box-header -->
                 <div class="box-body" style="">
+
+
+                    <strong><i class="fa fa-fw fa-user margin-r-5"></i> Member Since</strong>
+
+                    <p class="text-muted">
+
+                        @Html.DisplayFor(modelItem => modelItem.DateJoined)
+                    </p>
+                    <hr />
+                    <strong><i class="fa fa-fw fa-mars-stroke margin-r-5"></i> Gender</strong>
+
+                    <p class="text-muted">
+
+                        @Html.DisplayFor(modelItem => modelItem.Gender)
+                    </p>
+                    <hr />
                     <strong><i class="fa fa-book margin-r-5"></i> BIO</strong>
 
                     <p class="text-muted">
@@ -119,26 +146,13 @@
                     <hr>
 
                     <strong><i class="fa fa-map-marker margin-r-5"></i> Location</strong>
+                    <p class="text-muted">
 
-                    <p class="text-muted">Malibu, California</p>
-
-                    <hr>
-
-                    <strong><i class="fa fa-pencil margin-r-5"></i> Skills</strong>
-
-                    <p>
-                        <span class="label label-danger">UI Design</span>
-                        <span class="label label-success">Coding</span>
-                        <span class="label label-info">Javascript</span>
-                        <span class="label label-warning">PHP</span>
-                        <span class="label label-primary">Node.js</span>
+                        @Html.DisplayFor(modelItem => modelItem.Street),  @Html.DisplayFor(modelItem => modelItem.Town), @Html.DisplayFor(modelItem => modelItem.Country)
                     </p>
 
-                    <hr>
 
-                    <strong><i class="fa fa-file-text-o margin-r-5"></i> Notes</strong>
 
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam fermentum enim neque.</p>
                 </div>
                 <!-- /.box-body -->
             </div>
@@ -147,9 +161,8 @@
         <div class="box-body">
 
         </div>
+
+
     </dl>
 </div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.User_ID }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>
+
