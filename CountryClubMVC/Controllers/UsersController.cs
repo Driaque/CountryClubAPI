@@ -82,15 +82,18 @@ namespace CountryClubMVC.Controllers
         // GET: Users/Profile/5
         public new ActionResult Profile(int? id)
         {
+            Session["ProfileID"] = id;
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             User user = db.Users.Find(id);
+           
             if (user == null)
             {
                 return HttpNotFound();
             }
+            var userimage = db.Users.Where(x => x.User_ID == user.User_ID).SingleOrDefault();
             return View(user);
         }
 
@@ -365,6 +368,14 @@ namespace CountryClubMVC.Controllers
             var guid = Guid.NewGuid();
             string finalCode = lastname.Substring(0, 3) + guid.ToString().Substring(0, 7);
             return finalCode;
+        }
+
+        public string FollowCount()
+        {
+
+            var followCount = db.Followerships.Count();
+           
+            return followCount.ToString();
         }
 
         protected override void Dispose(bool disposing)

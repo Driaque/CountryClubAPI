@@ -64,7 +64,7 @@
         //Get displayPic tied to that ID
         var postUser = db.Users.Find(PostUserID);
         //Set Poster's image to
-        var postDP = postUser.DisplayPicture;
+        var postDP = postUser.DisplayPicture ?? "../../Content/NewContent/dist/img/user2-160x160.jpg";
         //Get nand humanize Datetime
         var time = Convert.ToDateTime(item.TimePosted).ToString("h:mm tt  dddd, dd MMMM yyyy ");
         //Get Poster's Profile link
@@ -116,7 +116,7 @@
                     </button>
                     @*Comments*@
                     @{
-                        
+
 
                         if (Comments != null)
                         {
@@ -128,7 +128,7 @@
                                 //Get displayPic tied to that ID
                                 var commentUser = db.Users.Find(commentUserID);
                                 //Set Commenter's image to
-                                var commentDP = commentUser.DisplayPicture;
+                                var commentDP = commentUser.DisplayPicture ?? "../../Content/NewContent/dist/img/user2-160x160.jpg";
                                 //Get comment time
                                 var commentTime = Convert.ToDateTime(comment.Time).ToString("h:mm tt  dd MMMM yy ");
                                 //Get Poster's Profile link

@@ -6,18 +6,6 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<p>
-    @{
-
-        if (ViewBag.FamTitle == "Parent")
-        {
-            @*<button> <i class="glyphicon glyphicon-plus"></i>@Html.ActionLink("Add New Family Member", "AddFamily")</button>*@
-            <a href="@Url.Action("AddFamily", "Users")"><img src="~/Content/NewContent/dist/img/addtogroup.png" width="90"/></a>
-        }
-    }
-</p>
-
-
 @{
     CountryClubMVC.Models.User _user = new CountryClubMVC.Models.User();
     CountryClubMVC.Models.AppDbContext db = new CountryClubMVC.Models.AppDbContext();
@@ -32,6 +20,21 @@
     }
 }
 
+<p>
+    @{
+
+        if (ViewBag.FamTitle == "Parent")
+        {
+            @*<button> <i class="glyphicon glyphicon-plus"></i>@Html.ActionLink("Add New Family Member", "AddFamily")</button>*@
+            <a href="@Url.Action("AddFamily", "Users")"><strong style="color:darkgreen; font-size:20px; font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif"><i class="fa fa-fw fa-user-plus margin-r-5"></i> ADD FAMILY MEMBERS</strong></a>
+
+        }
+    }
+</p>
+
+
+
+
 
 <div>
 
@@ -42,7 +45,7 @@
         //Get displayPic tied to that ID
         var User = db.Users.Find(UserID);
         //Set Poster's image to
-        var userDP = User.DisplayPicture;
+        var userDP = User.DisplayPicture ?? "../../Content/NewContent/dist/img/user2-160x160.jpg";
         //Get and Set user Full name
         var userfullName = User.Firstname + " " + User.Lastname;
         // ViewBag.userfullName = userfullName;
@@ -56,28 +59,44 @@
         var userFollowing = User.Following;
 
         //new div:
-        <div class="col-md-4">
-            <!-- Widget: user widget style 1 -->
-            <div class="box box-widget widget-user-2">
-                <!-- Add the bg color to the header using any of the bg-* classes -->
-                <div class="widget-user-header bg-green-gradient">
-                    <div class="widget-user-image" width=auto>
-                        <img class="img-circle" src="@userDP" alt="User Avatar">
+
+        <a href="@Url.Action(@ViewBag.userProfile, "Users")">
+            <div class="col-md-10">
+                <!-- Widget: user widget style 1 -->
+                <div class="box box-widget widget-user-2">
+                    <!-- Add the bg color to the header using any of the bg-* classes -->
+                    <div class="row">
+                        <div class="col-md-8">
+                            <div class=" widget-user-image" width=auto>
+                                <img style="height:150px" class="img-rounded" src="@userDP" alt="User Avatar">
+                            </div>
+
+                            <div class="bg-aqua-gradient">
+                                <div class="widget-user-header bg-light-blue-gradient ">
+                                    <!-- /.widget-user-image -->
+
+                                    <h3>
+                                        <p style="margin-top:0px;color:white;font-weight:bold; font-size:30px; text-align:center"> @userfullName</p>
+                                    </h3>
+
+                                    <h5 style="color:white; font-weight:bold; font-size:17px; text-align:center" class="widget-user-desc">Title: @userTitle</h5>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="box-footer no-padding">
+                                <ul class="nav nav-stacked">
+                                    <li><a href="#">Family <span class="pull-right badge bg-blue">31</span></a></li>
+                                    <li><a href="#">Following <span class="pull-right badge bg-aqua">5</span></a></li>
+                                    <li><a href="#">Followers <span class="pull-right badge bg-red">842</span></a></li>
+                                </ul>
+                            </div>
+                        </div>
                     </div>
-                    <!-- /.widget-user-image -->
-                    <h3><a href="@Url.Action(@ViewBag.userProfile, "Users")">@userfullName</a></h3>
-                    <h5 class="widget-user-desc">@userTitle</h5>
                 </div>
-                <div class="box-footer no-padding">
-                    <ul class="nav nav-stacked">
-                        <li><a href="#">Family <span class="pull-right badge bg-blue">31</span></a></li>
-                        <li><a href="#">Following <span class="pull-right badge bg-aqua">5</span></a></li>
-                        <li><a href="#">Followers <span class="pull-right badge bg-red">842</span></a></li>
-                    </ul>
-                </div>
+                <!-- /.widget-user -->
             </div>
-            <!-- /.widget-user -->
-        </div>
+        </a>
     }
 
 </div>
