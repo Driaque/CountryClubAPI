@@ -18,11 +18,11 @@ namespace CountryClubMVC.Controllers
         public ActionResult Index()
         {
             //GEt UserID
-            var userID = Convert.ToInt32(Session["User_ID"]);
+            var userID = Convert.ToInt32(Session["UserID"]);
 
             var notifications = db.Notifications.Where(x => x.User_ID == userID && x.IsSeen == false).ToList();
 
-            foreach(var notification in notifications)
+            foreach (var notification in notifications)
             {
                 notification.IsSeen = true;
                 db.SaveChanges();
