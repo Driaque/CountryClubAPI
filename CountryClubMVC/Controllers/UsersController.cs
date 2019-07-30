@@ -69,15 +69,6 @@ namespace CountryClubMVC.Controllers
             return View(users.ToList());
         }
 
-        // GET: GetFriendsList
-        public ActionResult GetFriendsList()
-        {
-            var UserID = Session["USERID"].ToString();
-            var friends = db.Friends.Where(x => x.User_ID == UserID);
-
-            return View(friends.ToList());
-        }
-
 
         // GET: Users/Profile/5
         public new ActionResult Profile(int? id)
