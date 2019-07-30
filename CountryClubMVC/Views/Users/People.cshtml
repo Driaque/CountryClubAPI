@@ -56,7 +56,7 @@
             //Get displayPic tied to that ID
             var User = db.Users.Find(UserID);
             //Set Poster's image to
-            var userDP = User.DisplayPicture;
+            var userDP = User.DisplayPicture ?? "../../Content/NewContent/dist/img/user2-160x160.jpg";
             //Get and Set user Full name
             var userfullName = User.Firstname + " " + User.Lastname;
             // ViewBag.userfullName = userfullName;
@@ -103,21 +103,17 @@
                 <!-- Widget: user widget style 1 -->
                 <div class="box box-widget widget-user-2">
                     <!-- Add the bg color to the header using any of the bg-* classes -->
-                    <div class="widget-user-header bg-green-gradient">
+                    <div class="widget-user-header bg-black-gradient">
                         <div class="widget-user-image" width=auto>
                             <img class="img-circle" src="@userDP" alt="User Avatar">
+                            <br />
                         </div>
+                       
                         <!-- /.widget-user-image -->
                         <h3><a href="@Url.Action(@ViewBag.userProfile, "Users")">@userfullName</a></h3>
                         <h5 class="widget-user-desc">@userTitle</h5>
                     </div>
                     <div class="box-footer no-padding">
-                        <ul class="nav nav-stacked">
-                            <li><a href="#">Following <span class="pull-right badge bg-aqua">5</span></a></li>
-                            <li><a href="#">Followers <span class="pull-right badge bg-red">842</span></a></li>
-                        </ul>
-
-
                         @if (@ViewBag.followAction != "Follow")
                         {
                             <form action="@Url.Action("UnFollow", "Followerships")" method="post">
@@ -141,12 +137,16 @@
                 <!-- /.widget-user -->
             </div>
         }
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-
     </div>
-    <br/>
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
 </div>
+<br />
+<br />
+<br />
+<br />
+<br />

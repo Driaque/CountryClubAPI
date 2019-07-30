@@ -132,7 +132,7 @@ namespace CountryClubMVC.Controllers
 
                 db.Users.Add(user);
                 db.SaveChanges();
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("GetFamilyMembers", "Users");
             }
 
             ViewBag.Family_ID = new SelectList(db.Familys, "Family_ID", "FamilyName", user.Family_ID);
