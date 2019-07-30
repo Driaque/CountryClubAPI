@@ -29,6 +29,10 @@
     var UserID = Convert.ToInt32(Session["ProfileID"]);
     //Get displayPic tied to that ID
     var User = db.Users.Find(UserID);
+    var DisplayPic = User.DisplayPicture ?? "../../Content/NewContent/dist/img/user2-160x160.jpg";
+    ViewBag.DisplayPic = DisplayPic;
+    var CoverPics = User.CoverPicture ?? "../../Content/NewContent/dist/img/photo2.png";
+    ViewBag.CoverPics = CoverPics;
     var followerList = db.Followerships.Where(x => x.FollowerID == UserID).ToList();
     var followingList = db.Followerships.Where(x => x.UserID == UserID).ToList();
     ViewBag.followerCount = followerList.Count();
@@ -72,7 +76,7 @@
             <!-- Widget: user widget style 1 -->
             <div class="box box-widget widget-user">
                 <!-- Add the bg color to the header using any of the bg-* classes -->
-                <div class="widget-user-header bg-black" style="background: url(@ViewBag.CoverPic) center center;">
+                <div class="widget-user-header bg-black" style="background: url(@ViewBag.CoverPics) center center;">
                     <h3 class="widget-user-username">
                         @Html.DisplayFor(modelItem => modelItem.Firstname)
                         @Html.DisplayFor(modelItem => modelItem.Lastname)
@@ -83,7 +87,7 @@
                     </h5>
                 </div>
                 <div class=" widget-user-image">
-                    <img class=" profile-user-img img-responsive img-circle" src="@ViewBag.DP" alt="User Avatar">
+                    <img class=" profile-user-img img-responsive img-circle" src="@ViewBag.DisplayPic" alt="User Avatar">
                 </div>
 
                 <br />

@@ -57,11 +57,20 @@
         //Get Following and Followers:
         var userFollowers = User.Followers;
         var userFollowing = User.Following;
+        var gender = User.Gender;
+        ViewBag.gender = gender;
+        var MemberSince = User.DateJoined;
+        ViewBag.Date = MemberSince;
+        var City = User.Town;
+        ViewBag.City = City ?? " ";
+        var Country = User.Country ??  " ";
+        ViewBag.Country = Country;
+
 
         //new div:
 
         <a href="@Url.Action(@ViewBag.userProfile, "Users")">
-            <div class="col-md-10">
+            <div class="col-md-11">
                 <!-- Widget: user widget style 1 -->
                 <div class="box box-widget widget-user-2">
                     <!-- Add the bg color to the header using any of the bg-* classes -->
@@ -86,9 +95,9 @@
                         <div class="col-md-3">
                             <div class="box-footer no-padding">
                                 <ul class="nav nav-stacked">
-                                    <li><a href="#">Family <span class="pull-right badge bg-blue">31</span></a></li>
-                                    <li><a href="#">Following <span class="pull-right badge bg-aqua">5</span></a></li>
-                                    <li><a href="#">Followers <span class="pull-right badge bg-red">842</span></a></li>
+                                    <li><a href="#">Gender <span class="pull-right badge bg-blue">@ViewBag.gender</span></a></li>
+                                    <li><a href="#">Location<span class="pull-right badge bg-aqua">@ViewBag.City, @ViewBag.Country </span></a></li>
+                                    <li><a href="#">MemberSince:  <span class="pull-right badge bg-blue"> @ViewBag.Date</span></a></li>
                                 </ul>
                             </div>
                         </div>
