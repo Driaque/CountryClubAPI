@@ -59,8 +59,7 @@ namespace CountryClubMVC.Controllers
                 //Nofity Followed user
                 var notification = new Notification();
                 notification.User_ID = followership.UserID;
-                //get Comment User
-                var followingUser = db.Users.Find(followership.UserID);
+                var followingUser = db.Users.Find(followership.FollowerID);
 
                 notification.Message = $"{followingUser.Username} has started following you!";
                 notification.Time = DateTime.Now.ToString();
