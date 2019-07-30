@@ -55,6 +55,17 @@ namespace CountryClubMVC.Controllers
             {
                 //add record of following
                 db.Followerships.Add(followership);
+
+                //Nofity Followed user
+                var notification = new Notification();
+                notification.User_ID = followership.UserID;
+                var followingUser = db.Users.Find(followership.FollowerID);
+
+                notification.Message = $"{followingUser.Username} has started following you!";
+                notification.Time = DateTime.Now.ToString();
+                db.Notifications.Add(notification);
+
+
                 //save changes to db
                 db.SaveChanges();
                 return RedirectToAction("People", "Users");
