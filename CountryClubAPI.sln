@@ -3,6 +3,8 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28307.572
 MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CountryClubAPI", "CountryClubAPI\CountryClubAPI.csproj", "{0B314E07-1B2A-4AD0-873D-B52F20F09D47}"
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CountryClubMVC", "CountryClubMVC\CountryClubMVC.csproj", "{008BCF5A-535D-4D3A-A233-BB49A6FC834E}"
 EndProject
 Global
@@ -11,6 +13,10 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0B314E07-1B2A-4AD0-873D-B52F20F09D47}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0B314E07-1B2A-4AD0-873D-B52F20F09D47}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0B314E07-1B2A-4AD0-873D-B52F20F09D47}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0B314E07-1B2A-4AD0-873D-B52F20F09D47}.Release|Any CPU.Build.0 = Release|Any CPU
 		{008BCF5A-535D-4D3A-A233-BB49A6FC834E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{008BCF5A-535D-4D3A-A233-BB49A6FC834E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{008BCF5A-535D-4D3A-A233-BB49A6FC834E}.Release|Any CPU.ActiveCfg = Release|Any CPU
